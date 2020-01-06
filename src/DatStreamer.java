@@ -1,10 +1,8 @@
 import javafx.application.Application;
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
-import javafx.scene.layout.Background;
-import javafx.scene.layout.BackgroundFill;
-import javafx.scene.layout.CornerRadii;
-import javafx.scene.layout.GridPane;
+import javafx.scene.control.Label;
+import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 import org.jsoup.Jsoup;
@@ -28,10 +26,14 @@ public class DatStreamer extends Application {
         root.setWidth(1000);
         root.setHeight(600);
 
-        GridPane mainLayout = new GridPane();
+        VBox mainLayout = new VBox();
 //        mainLayout.setBackground(new Background(new BackgroundFill(Color.BLUE, CornerRadii.EMPTY, Insets.EMPTY)));
-        mainLayout.add(new Menu(), 0,1, 1, 2);
-        mainLayout.add(new Player(), 0, 0);
+//        Menu menu = new Menu();
+//        mainLayout.add(menu, 0,1, 2, 5);
+//        mainLayout.setHgrow(menu, Priority.ALWAYS);
+//        mainLayout.setVgrow(menu, Priority.ALWAYS);
+        mainLayout.getChildren().addAll(new Player(), new Menu());
+//        mainLayout.add(new Label("datsream"), 0, 6);
         Scene mainScene = new Scene(mainLayout);
         root.setScene(mainScene);
         root.show();
