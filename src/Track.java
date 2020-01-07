@@ -1,13 +1,14 @@
 public class Track {
     private int track_num;
-    private String name;
+    private String title;
     private String artist;
     protected Mixtape mixtape;
     private String mp3_url;
+//    private int duration;
 
-    public Track(int track_num, String name, String artist, Mixtape mixtape) {
+    public Track(int track_num, String title, String artist, Mixtape mixtape) {
         this.track_num = track_num;
-        this.name = name;
+        this.title = title;
         this.artist = artist;
         this.mixtape = mixtape;
         resolveMP3URL();
@@ -17,8 +18,8 @@ public class Track {
         return track_num;
     }
 
-    public String getName() {
-        return name;
+    public String getTitle() {
+        return title;
     }
 
     public String getArtist() {
@@ -35,7 +36,8 @@ public class Track {
 
     private String convertTrackName() {
         String num = (track_num < 10) ? "0" + Integer.toString(track_num) : Integer.toString(track_num);
-        String full_name = String.format("%s - %s.mp3", num, name);
+        String full_name = String.format("%s - %s.mp3", num, title);
         return full_name.replace(" ", "%20");
     }
+
 }

@@ -19,7 +19,6 @@ public class Search extends VBox {
     private TilePane results_display = new TilePane();
 
     public Search() {
-//        results_display.setTileAlignment(Pos.CENTER);
         search_field.setOnKeyReleased(event -> {
             if (event.getCode() == KeyCode.ENTER) {
                 results_display.getChildren().clear();
@@ -30,6 +29,7 @@ public class Search extends VBox {
                 }
             }
         });
+        setPadding(new Insets(20));
         getChildren().addAll(title, search_field, search_content);
         search_content.getChildren().add(results_display);
     }
@@ -45,9 +45,9 @@ public class Search extends VBox {
 
     public static Mixtapes search(String query) throws Exception {
         Mixtapes mixtapes = new Mixtapes();
-        Document doc = Jsoup.connect("https://www.datpiff.com/mixtapes-search.php?criteria=" + query).get();
-        Elements results = doc.select(".contentListing .contentItem");
-        for (Element result : results.subList(0, 5)) {
+        Document doc = Jsoup.connect("https://www.datpiff.com/mixtapes-search.php?criteria=" + query).execute().bufferUp().parse();
+        Elements results = doc.select("#leftColumnWide .contentListing .contentItem:not(.noMedia)");
+        for (Element result : results.subList(0, (results.size() > 9)? 9 : results.size())) {
             String title = result.select(".contentItemInner .title a").text();
             String artist = result.select(".contentItemInner .artist").text();
             String uri = result.select(".contentItemInner a").first().attr("href");

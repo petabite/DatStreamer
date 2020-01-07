@@ -1,4 +1,5 @@
 import javafx.application.Application;
+import javafx.application.Platform;
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
@@ -13,8 +14,7 @@ import java.util.ArrayList;
 
 
 public class DatStreamer extends Application {
-//    protected static final String DATPIFF_BASE_URL = "https://www.datpiff.com";
-//    protected static final String DATPIFF_SEARCH_BASE_URL = DATPIFF_BASE_URL + "/mixtapes-search.php?criteria=";
+    static Player player = new Player();
 
     public DatStreamer() {
 
@@ -24,7 +24,7 @@ public class DatStreamer extends Application {
     public void start(Stage root) throws Exception {
         root.setTitle("DatStreamer");
         root.setWidth(1000);
-        root.setHeight(600);
+//        root.setHeight(600);
 
         VBox mainLayout = new VBox();
 //        mainLayout.setBackground(new Background(new BackgroundFill(Color.BLUE, CornerRadii.EMPTY, Insets.EMPTY)));
@@ -32,7 +32,7 @@ public class DatStreamer extends Application {
 //        mainLayout.add(menu, 0,1, 2, 5);
 //        mainLayout.setHgrow(menu, Priority.ALWAYS);
 //        mainLayout.setVgrow(menu, Priority.ALWAYS);
-        mainLayout.getChildren().addAll(new Player(), new Menu());
+        mainLayout.getChildren().addAll(player, new Menu());
 //        mainLayout.add(new Label("datsream"), 0, 6);
         Scene mainScene = new Scene(mainLayout);
         root.setScene(mainScene);

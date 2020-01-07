@@ -12,6 +12,7 @@ public class Menu extends TabPane {
     public Menu() {
         setSide(Side.LEFT);
         setTabMinWidth(200);
+        setPrefHeight(520);
         getTabs().addAll(library, search);
         setTabClosingPolicy(TabClosingPolicy.UNAVAILABLE);
     }

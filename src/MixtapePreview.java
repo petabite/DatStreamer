@@ -24,18 +24,18 @@ public class MixtapePreview extends VBox {
         cover.setFitHeight(50);
         cover.setFitWidth(50);
         title = new Label(tape.getTitle());
-        title.setMaxWidth(150);
+        title.setMaxSize(150, 150);
         title.setWrapText(true);
         title.setAlignment(Pos.CENTER);
         title.setTextAlignment(TextAlignment.CENTER); // TODO: inherit the label object to DRY
         artist = new Label(tape.getArtist());
-        artist.setMaxWidth(150);
+        artist.setMaxSize(150, 150);
         artist.setWrapText(true);
         artist.setTextAlignment(TextAlignment.CENTER);
         artist.setAlignment(Pos.CENTER);
 
         setOnMouseClicked(e -> {
-            MixtapeView tape_view = new MixtapeView(tape);
+            MixtapeView tape_view = new MixtapeView(display, tape);
             display.setAlignment(tape_view, Pos.BOTTOM_CENTER);
             display.getChildren().add(tape_view);
         });
