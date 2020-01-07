@@ -2,7 +2,7 @@ public class Track {
     private int track_num;
     private String name;
     private String artist;
-    private Mixtape mixtape;
+    protected Mixtape mixtape;
     private String mp3_url;
 
     public Track(int track_num, String name, String artist, Mixtape mixtape) {
@@ -11,6 +11,22 @@ public class Track {
         this.artist = artist;
         this.mixtape = mixtape;
         resolveMP3URL();
+    }
+
+    public int getTrack_Num() {
+        return track_num;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public String getArtist() {
+        return artist;
+    }
+
+    public String getMp3_Url() {
+        return mp3_url;
     }
 
     private void resolveMP3URL() {

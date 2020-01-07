@@ -1,8 +1,14 @@
 import javafx.geometry.Pos;
+import javafx.scene.Cursor;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.Background;
+import javafx.scene.layout.BackgroundFill;
+import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
+import javafx.scene.paint.Color;
 import javafx.scene.text.TextAlignment;
 
 import java.io.FileInputStream;
@@ -12,7 +18,7 @@ public class MixtapePreview extends VBox {
     private ImageView cover;
     private Label title, artist;
 
-    public MixtapePreview(Mixtape tape) throws FileNotFoundException {
+    public MixtapePreview(StackPane display, Mixtape tape) throws FileNotFoundException {
 //        Image image = new Image(new FileInputStream());
         cover = new ImageView(tape.cover_art_url);
         cover.setFitHeight(50);
@@ -28,6 +34,19 @@ public class MixtapePreview extends VBox {
         artist.setTextAlignment(TextAlignment.CENTER);
         artist.setAlignment(Pos.CENTER);
 
+        setOnMouseClicked(e -> {
+            MixtapeView tape_view = new MixtapeView(tape);
+            display.setAlignment(tape_view, Pos.BOTTOM_CENTER);
+            display.getChildren().add(tape_view);
+        });
+        setOnMouseEntered(e -> {
+            setBackground(new Background(new BackgroundFill(Color.LIGHTBLUE, null, null)));
+            setCursor(Cursor.HAND);
+        });
+        setOnMouseExited(e -> {
+            setBackground(Background.EMPTY);
+            setCursor(Cursor.DEFAULT);
+        });
         setAlignment(Pos.CENTER);
         getChildren().addAll(cover, title, artist);
     }

@@ -15,6 +15,7 @@ import java.util.ArrayList;
 public class Search extends VBox {
     private Label title = new Label("Search for mixtapes:");
     private TextField search_field = new TextField();
+    private StackPane search_content = new StackPane();
     private TilePane results_display = new TilePane();
 
     public Search() {
@@ -29,13 +30,16 @@ public class Search extends VBox {
                 }
             }
         });
-        getChildren().addAll(title, search_field, results_display);
+        getChildren().addAll(title, search_field, search_content);
+        search_content.getChildren().add(results_display);
     }
 
     public void displaySearchResults() throws Exception{
         Mixtapes results = search(search_field.getText());
+        if (search_content.getChildren().size() > 1 && search_content.getChildren().get(1) instanceof MixtapeView)
+            search_content.getChildren().remove(1);
         for (Mixtape result: results) {
-            results_display.getChildren().add(new MixtapePreview(result));
+            results_display.getChildren().add(new MixtapePreview(search_content, result));
         }
     }
 

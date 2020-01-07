@@ -6,14 +6,13 @@ import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
 
 public class Menu extends TabPane {
-    private Tab home = new Tab("Home", new Label("Home"));
-    private Tab search = new Tab("Search", new Search());
     private Tab library = new Tab("Library", new Label("lib"));
+    private Tab search = new Tab("Search", new Search());
 
     public Menu() {
         setSide(Side.LEFT);
-        setTabMinWidth(150);
-        getTabs().addAll(home, search, library);
+        setTabMinWidth(200);
+        getTabs().addAll(library, search);
         setTabClosingPolicy(TabClosingPolicy.UNAVAILABLE);
     }
 }
