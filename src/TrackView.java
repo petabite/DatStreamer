@@ -20,6 +20,9 @@ public class TrackView extends HBox {
 
         play.setOnMouseClicked(e -> {
             DatStreamer.player.playTrack(track);
+            for (int track_num = track.getTrack_Num() - 1; track_num < track.mixtape.getTracks().size(); track_num++) {
+                DatStreamer.player.addToQueue(track.mixtape.getTrack(track_num));
+            }
         });
 
         like.setOnMouseClicked(e -> {

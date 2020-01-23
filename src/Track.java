@@ -36,7 +36,8 @@ public class Track {
 
     private String convertTrackName() {
         String num = (track_num < 10) ? "0" + Integer.toString(track_num) : Integer.toString(track_num);
-        String full_name = String.format("%s - %s.mp3", num, title);
+        String tmp_title = title.replaceAll("['|.|#|,|&]", "");
+        String full_name = String.format("%s - %s.mp3", num, tmp_title);
         return full_name.replace(" ", "%20");
     }
 

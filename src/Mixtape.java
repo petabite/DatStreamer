@@ -9,7 +9,7 @@ import java.util.ArrayList;
 public class Mixtape {
     private String title;
     private String artist;
-    private ArrayList<Track> tracks = new ArrayList<Track>();
+    private Tracks tracks = new Tracks();
     private String uri;
     private char stream_key;
     private String mixtape_id;
@@ -34,8 +34,12 @@ public class Mixtape {
         return artist;
     }
 
-    public ArrayList<Track> getTracks() {
+    public Tracks getTracks() {
         return tracks;
+    }
+
+    public Track getTrack(int index) {
+        return tracks.get(index);
     }
 
     private void getStreamKey() {
