@@ -37,21 +37,15 @@ public class Track implements Serializable {
     }
 
     public boolean isLiked() {
-        Playlist liked_songs = DatFiles.getLikedSongsPlaylist();
-        for (Track track : liked_songs.getTracks()) {
-            if (this.track_id.equals(track.track_id)) return true;
-        }
-        return false;
+        return DatFiles.getLikedSongsPlaylist().hasTrack(this);
     }
 
     public void like() {
         DatFiles.getLikedSongsPlaylist().add(this);
-        Menu.library.showPlaylists();
     }
 
     public void unlike() {
         DatFiles.getLikedSongsPlaylist().remove(this);
-        Menu.library.showPlaylists();
     }
 
     private void resolveMP3URL() {

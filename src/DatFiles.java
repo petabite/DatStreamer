@@ -33,11 +33,12 @@ public class DatFiles {
     }
 
     public static ArrayList<String> getPlaylists() {
+        // returns names of playlist files except for liked songs
         ArrayList<String> playlist_names = new ArrayList<String>();
         File playlists_folder = new File(PLAYLISTS_PATH);
         File[] list_of_playlists = playlists_folder.listFiles();
         for (File playlist : list_of_playlists) {
-            if (playlist.isFile()) {
+            if (playlist.isFile() && !playlist.getName().equals("Liked Songs.play")) {
                 playlist_names.add(playlist.getName());
             }
         }
@@ -55,7 +56,7 @@ public class DatFiles {
             ObjectOutputStream objectOutputStream = new ObjectOutputStream(fileOutputStream);
             objectOutputStream.writeObject(obj);
             objectOutputStream.close();
-        } catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }

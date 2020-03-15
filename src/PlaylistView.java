@@ -78,7 +78,7 @@ public class PlaylistView extends HBox {
         controls.setAlignment(Pos.CENTER_LEFT);
         controls.getChildren().addAll(
                 new Label("Tracks"),
-                new Label(playlist.getTracks().size() + " tracks"),
+                new Label(playlist.getLength() + " tracks"),
                 play, enqueue, shuffle
         );
         if (!playlist.getName().equals("Liked Songs")) controls.getChildren().add(delete); // liked songs cannot be deleted LOL
@@ -91,7 +91,7 @@ public class PlaylistView extends HBox {
         });
 
         for (Track track : playlist.getTracks()) {
-            track_list.getChildren().add(new TrackView(track));
+            track_list.getChildren().add(new TrackView(track, TrackView.PLAYLIST_VIEW, playlist));
         }
 
         setBackground(new Background(new BackgroundFill(Color.WHITE, null, null)));

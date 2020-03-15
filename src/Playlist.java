@@ -31,14 +31,23 @@ public class Playlist implements Serializable {
         return tracks.get(index);
     }
 
+    public boolean hasTrack(Track track_to_search_for) {
+        for (Track track: tracks) {
+            if (track.track_id.equals(track_to_search_for.track_id)) return true;
+        }
+        return false;
+    }
+
     public void add(Track track) {
         tracks.add(track);
         DatFiles.writeToFile(this, playlist_path);
+        Menu.library.showPlaylists();
     }
 
     public void remove(Track track_to_remove){
-        tracks.removeIf(track -> track.track_id.equals(track_to_remove.track_id));
+        tracks.removeIf(track -> track.track_id.equals(track_to_remove.track_id)); // TODO: use hasTrack method?
         DatFiles.writeToFile(this, playlist_path);
+        Menu.library.showPlaylists();
     }
 
     public void delete() {

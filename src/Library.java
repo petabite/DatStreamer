@@ -47,10 +47,8 @@ public class Library extends StackPane {
         Playlist liked_songs = DatFiles.getLikedSongsPlaylist();
         playlists_pane.getChildren().add(new PlaylistPreview(liked_songs));
         for (String playlist_file : DatFiles.getPlaylists()) {
-            if (!playlist_file.equals("Liked Songs.play")) {
-                Playlist playlist = (Playlist) DatFiles.readFile(DatFiles.PLAYLISTS_PATH + playlist_file);
-                playlists_pane.getChildren().add(new PlaylistPreview(playlist));
-            }
+            Playlist playlist = (Playlist) DatFiles.readFile(DatFiles.PLAYLISTS_PATH + playlist_file);
+            playlists_pane.getChildren().add(new PlaylistPreview(playlist));
         }
     }
 

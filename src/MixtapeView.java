@@ -97,7 +97,7 @@ public class MixtapeView extends HBox {
         });
 
         for (Track track : mixtape.getTracks()) {
-            track_list.getChildren().add(new TrackView(track));
+            track_list.getChildren().add(new TrackView(track, TrackView.MIXTAPE_VIEW));
         }
 
         setBackground(new Background(new BackgroundFill(Color.WHITE, null, null)));
