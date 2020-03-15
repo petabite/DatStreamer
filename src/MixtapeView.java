@@ -24,8 +24,8 @@ public class MixtapeView extends HBox {
     private ScrollPane track_list_pane = new ScrollPane();
     private VBox track_list = new VBox();
 
-    public MixtapeView(StackPane display, Mixtape mixtape_to_show) {
-        mixtape = mixtape_to_show;
+    public MixtapeView(StackPane display, Mixtape mixtape) {
+        this.mixtape = mixtape;
         cover = new ImageView(mixtape.cover_art_url);
         cover.setFitHeight(100);
         cover.setFitWidth(100);

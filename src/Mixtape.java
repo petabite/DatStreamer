@@ -3,9 +3,7 @@ import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
-import java.io.IOException;
 import java.io.Serializable;
-import java.util.ArrayList;
 
 public class Mixtape implements Serializable {
     private String title;
@@ -53,7 +51,7 @@ public class Mixtape implements Serializable {
         Mixtapes liked_tapes = DatFiles.getLikedMixtapes();
         liked = true;
         liked_tapes.add(this);
-        DatFiles.writeToFile(liked_tapes, DatFiles.LikedMixtapesPath);
+        DatFiles.writeToFile(liked_tapes, DatFiles.LIKED_MIXTAPES_PATH);
         Menu.library.showLikedMixtapes();
     }
 
@@ -61,8 +59,7 @@ public class Mixtape implements Serializable {
         Mixtapes liked_tapes = DatFiles.getLikedMixtapes();
         liked = false;
         liked_tapes.removeIf(tape -> tape.mixtape_id.equals(this.mixtape_id));
-//        liked_tapes.remove(this);
-        DatFiles.writeToFile(liked_tapes, DatFiles.LikedMixtapesPath);
+        DatFiles.writeToFile(liked_tapes, DatFiles.LIKED_MIXTAPES_PATH);
         Menu.library.showLikedMixtapes();
     }
 

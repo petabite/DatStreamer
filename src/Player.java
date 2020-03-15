@@ -94,7 +94,7 @@ public class Player extends GridPane {
     public void playTrack(Track track){
         if (isPlaying()) stop();
         now_playing = track;
-        song = new Media(track.getMp3_Url());
+        song = new Media(track.getMp3_Url()); // TODO: choose between url and downloaded file if it exists
         mediaPlayer = new MediaPlayer(song);
         mediaPlayer.setOnReady(new Runnable() {
             @Override
