@@ -1,19 +1,20 @@
-import javafx.geometry.Orientation;
 import javafx.geometry.Side;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
 
-public class Menu extends TabPane {
-    private Tab library = new Tab("Library", new Label("lib"));
-    private Tab search = new Tab("Search", new Search());
+import java.io.IOException;
 
-    public Menu() {
+public class Menu extends TabPane {
+    static Library library = new Library();
+    static Search search = new Search();
+    private Tab library_tab = new Tab("Library", library);
+    private Tab search_tab = new Tab("Search", search);
+
+    public Menu() throws IOException, ClassNotFoundException {
         setSide(Side.LEFT);
         setTabMinWidth(200);
         setPrefHeight(520);
-        getTabs().addAll(library, search);
+        getTabs().addAll(library_tab, search_tab);
         setTabClosingPolicy(TabClosingPolicy.UNAVAILABLE);
     }
 }

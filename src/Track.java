@@ -1,4 +1,8 @@
-public class Track {
+import java.io.Serializable;
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
+
+public class Track implements Serializable {
     private int track_num;
     private String title;
     private String artist;
@@ -36,7 +40,9 @@ public class Track {
 
     private String convertTrackName() {
         String num = (track_num < 10) ? "0" + Integer.toString(track_num) : Integer.toString(track_num);
-        String tmp_title = title.replaceAll("['|.|#|,|&]", "");
+        String tmp_title = title.replaceAll("['|.|#|,|&]", "")
+                .replaceAll("\\[", "%5B")
+                .replaceAll("]", "%5D");
         String full_name = String.format("%s - %s.mp3", num, tmp_title);
         return full_name.replace(" ", "%20");
     }

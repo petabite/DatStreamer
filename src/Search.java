@@ -52,6 +52,7 @@ public class Search extends VBox {
             String artist = result.select(".contentItemInner .artist").text();
             String uri = result.select(".contentItemInner a").first().attr("href");
             mixtapes.add(new Mixtape(title, artist, uri));
+
         }
         return mixtapes;
     }

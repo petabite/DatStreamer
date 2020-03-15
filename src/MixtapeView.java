@@ -9,9 +9,11 @@ import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.TextAlignment;
 
+import java.io.IOException;
 import java.util.Collections;
 
 public class MixtapeView extends HBox {
+    private Mixtape mixtape;
     private Button back = new Button("back");
     private ImageView cover;
     private Label title, artist;
@@ -22,7 +24,8 @@ public class MixtapeView extends HBox {
     private ScrollPane track_list_pane = new ScrollPane();
     private VBox track_list = new VBox();
 
-    public MixtapeView(StackPane display, Mixtape mixtape) {
+    public MixtapeView(StackPane display, Mixtape mixtape_to_show) {
+        mixtape = mixtape_to_show;
         cover = new ImageView(mixtape.cover_art_url);
         cover.setFitHeight(100);
         cover.setFitWidth(100);
@@ -48,7 +51,9 @@ public class MixtapeView extends HBox {
         play = new Button("play");
         enqueue = new Button("enqueue");
         shuffle = new Button("shuffle");
-        like = new Button("like");
+        like = new Button();
+        if (mixtape.isLiked()) like.setText("unlike");
+        else like.setText("like");
         download = new Button("download");
 
         play.setOnMouseClicked(event -> {
@@ -65,6 +70,10 @@ public class MixtapeView extends HBox {
             for (int track_num = 1; track_num < mixtape.getTracks().size(); track_num++) {
                 DatStreamer.player.addToQueue(shuffled.get(track_num));
             }
+        });
+
+        like.setOnMouseClicked(event -> {
+            toggleLikeButton();
         });
 
         enqueue.setOnMouseClicked(event -> {
@@ -93,5 +102,23 @@ public class MixtapeView extends HBox {
 
         setBackground(new Background(new BackgroundFill(Color.WHITE, null, null)));
     }
+
+    private void toggleLikeButton() {
+        if (mixtape.isLiked()) {
+            mixtape.unlike();
+            like.setText("like");
+        } else {
+            mixtape.like();
+            like.setText("unlike");
+        }
+    }
+//
+//    private void toggleUnlikeButton() {
+//        like.setText("unlike");
+//        like.setOnMouseClicked(event -> {
+//            mixtape.unlike();
+//            toggleLikeButton();
+//        });
+//    }
 
 }

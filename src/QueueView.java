@@ -17,7 +17,7 @@ public class QueueView extends TabPane {
     public QueueView() {
 
 //        setTabMinWidth(200);
-//        setPrefHeight(520);
+        setPrefHeight(100);
         setPrefWidth(200);
         getTabs().addAll(queue_tab, history_tab);
         setTabClosingPolicy(TabClosingPolicy.UNAVAILABLE);

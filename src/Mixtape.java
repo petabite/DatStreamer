@@ -3,13 +3,15 @@ import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
-import java.sql.SQLOutput;
+import java.io.IOException;
+import java.io.Serializable;
 import java.util.ArrayList;
 
-public class Mixtape {
+public class Mixtape implements Serializable {
     private String title;
     private String artist;
     private Tracks tracks = new Tracks();
+    private boolean liked;
     private String uri;
     private char stream_key;
     private String mixtape_id;
@@ -20,6 +22,7 @@ public class Mixtape {
         this.title = title;
         this.artist = artist;
         this.uri = uri;
+        resolveIfLiked();
         getStreamKey();
         getMixtapeID();
         resolveURLs();
@@ -40,6 +43,31 @@ public class Mixtape {
 
     public Track getTrack(int index) {
         return tracks.get(index);
+    }
+
+    public boolean isLiked() {
+        return liked;
+    }
+
+    public void like(){
+        Mixtapes liked_tapes = DatFiles.getLikedMixtapes();
+        liked = true;
+        liked_tapes.add(this);
+        DatFiles.writeToFile(liked_tapes, DatFiles.LikedMixtapesPath);
+        Menu.library.showLikedMixtapes();
+    }
+
+    public void unlike(){
+        Mixtapes liked_tapes = DatFiles.getLikedMixtapes();
+        liked = false;
+        liked_tapes.removeIf(tape -> tape.mixtape_id.equals(this.mixtape_id));
+//        liked_tapes.remove(this);
+        DatFiles.writeToFile(liked_tapes, DatFiles.LikedMixtapesPath);
+        Menu.library.showLikedMixtapes();
+    }
+
+    private void resolveIfLiked() {
+        liked = DatFiles.getLikedMixtapes().contains(this);
     }
 
     private void getStreamKey() {
