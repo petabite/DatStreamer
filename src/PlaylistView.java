@@ -8,6 +8,7 @@ import javafx.scene.text.TextAlignment;
 import java.util.Collections;
 
 public class PlaylistView extends HBox {
+    private StackPane display;
     private Playlist playlist;
     private Button back = new Button("back");
     private Label name;
@@ -19,6 +20,7 @@ public class PlaylistView extends HBox {
     private VBox track_list = new VBox();
 
     public PlaylistView(StackPane display, Playlist playlist) {
+        this.display = display;
         this.playlist = playlist;
         name = new Label(playlist.getName());
         name.setMaxWidth(300);
@@ -66,7 +68,11 @@ public class PlaylistView extends HBox {
             delete_alert.setTitle("Delete Playlist?");
             delete_alert.setGraphic(null);
             delete_alert.setHeaderText("Are you sure you wanna delete this playlist?");
-            System.out.println(delete_alert.showAndWait().get().getText()); //tODO: implement playlist deletion
+            if(delete_alert.showAndWait().get().getText().equals("Yes")) {
+                DatFiles.deletePlaylist(playlist.getName());
+                hide();
+                Menu.library.showPlaylists();
+            }
         });
 
         controls.setAlignment(Pos.CENTER_LEFT);
@@ -81,7 +87,7 @@ public class PlaylistView extends HBox {
         right.getChildren().addAll(controls, track_list_pane);
 
         back.setOnMouseClicked(e -> {
-            display.getChildren().remove(this);
+            hide();
         });
 
         for (Track track : playlist.getTracks()) {
@@ -89,5 +95,9 @@ public class PlaylistView extends HBox {
         }
 
         setBackground(new Background(new BackgroundFill(Color.WHITE, null, null)));
+    }
+
+    public void hide() {
+        display.getChildren().remove(this);
     }
 }

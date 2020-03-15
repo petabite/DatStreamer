@@ -41,6 +41,7 @@ public class Library extends StackPane {
     }
 
     public void showPlaylists() {
+        // show/refresh playlists list
         playlists_pane.getChildren().clear();
         //show liked songs first
         Playlist liked_songs = (Playlist) DatFiles.readFile(DatFiles.LIKED_SONGS_PATH);

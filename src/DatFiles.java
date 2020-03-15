@@ -22,6 +22,10 @@ public class DatFiles {
         return playlist_names;
     }
 
+    public static void deletePlaylist(String playlist_name) {
+        deleteFile(PLAYLISTS_PATH + playlist_name + ".play");
+    }
+
     public static void writeToFile(Object obj, String file) {
         try {
 
@@ -41,7 +45,11 @@ public class DatFiles {
             return objectInputStream.readObject();
         } catch (Exception e) {
             e.printStackTrace();
-            return null;
+            return e;
         }
+    }
+
+    private static void deleteFile(String file) {
+        new File(file).delete();
     }
 }
