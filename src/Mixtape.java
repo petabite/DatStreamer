@@ -12,7 +12,7 @@ public class Mixtape implements Serializable {
     private boolean liked;
     private String uri;
     private char stream_key;
-    private String mixtape_id;
+    protected String mixtape_id;
     protected String stream_url;
     protected String cover_art_url;
 

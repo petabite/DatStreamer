@@ -4,6 +4,7 @@ import java.net.URLEncoder;
 
 public class Track implements Serializable {
     private int track_num;
+    protected String track_id;
     private String title;
     private String artist;
     protected Mixtape mixtape;
@@ -15,6 +16,7 @@ public class Track implements Serializable {
         this.title = title;
         this.artist = artist;
         this.mixtape = mixtape;
+        this.track_id = mixtape.mixtape_id + "//" + track_num;
         resolveMP3URL();
     }
 
@@ -32,6 +34,24 @@ public class Track implements Serializable {
 
     public String getMp3_Url() {
         return mp3_url;
+    }
+
+    public boolean isLiked() {
+        Playlist liked_songs = DatFiles.getLikedSongsPlaylist();
+        for (Track track : liked_songs.getTracks()) {
+            if (this.track_id.equals(track.track_id)) return true;
+        }
+        return false;
+    }
+
+    public void like() {
+        DatFiles.getLikedSongsPlaylist().add(this);
+        Menu.library.showPlaylists();
+    }
+
+    public void unlike() {
+        DatFiles.getLikedSongsPlaylist().remove(this);
+        Menu.library.showPlaylists();
     }
 
     private void resolveMP3URL() {

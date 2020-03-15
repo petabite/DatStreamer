@@ -6,8 +6,30 @@ public class DatFiles {
     static final String PLAYLISTS_PATH = ".dat/playlists/";
     static final String LIKED_SONGS_PATH = ".dat/playlists/Liked Songs.play";
 
+    public static void initFilesystem() {
+        // create datstreamer files if not exist
+        if (!new File(".dat").exists()) {
+            // create dirs
+            new File(".dat/playlists").mkdirs();
+            new File(".dat/mixtapes").mkdir();
+            Playlist.createNewPlaylist("Liked Songs"); // create like songs playlist
+            try {
+                FileOutputStream fos = new FileOutputStream(".dat/mixtapes/liked.dat"); // create liked mixtapes file
+                ObjectOutputStream oos = new ObjectOutputStream(fos);
+                oos.writeObject(new Mixtapes());
+                oos.close();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
     public static Mixtapes getLikedMixtapes() {
         return (Mixtapes) readFile(DatFiles.LIKED_MIXTAPES_PATH);
+    }
+
+    public static Playlist getLikedSongsPlaylist() {
+        return (Playlist) DatFiles.readFile(DatFiles.LIKED_SONGS_PATH);
     }
 
     public static ArrayList<String> getPlaylists() {

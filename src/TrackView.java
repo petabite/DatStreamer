@@ -13,10 +13,13 @@ public class TrackView extends HBox {
 
     public TrackView(Track track) {
         play = new Button("play");
-        like = new Button("like");
+        like = new Button();
         download = new Button("download");
         num = new Label(Integer.toString(track.getTrack_Num()));
         name = new Label(track.getTitle());
+
+        if (track.isLiked()) like.setText("unlike");
+        else like.setText("like");
 
         play.setOnMouseClicked(e -> {
             DatStreamer.player.playTrack(track);
@@ -26,7 +29,13 @@ public class TrackView extends HBox {
         });
 
         like.setOnMouseClicked(e -> {
-
+            if (track.isLiked()) {
+                track.unlike();
+                like.setText("like");
+            } else {
+                track.like();
+                like.setText("unlike");
+            }
         });
 
         download.setOnMouseClicked(e -> {

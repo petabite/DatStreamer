@@ -69,7 +69,7 @@ public class PlaylistView extends HBox {
             delete_alert.setGraphic(null);
             delete_alert.setHeaderText("Are you sure you wanna delete this playlist?");
             if(delete_alert.showAndWait().get().getText().equals("Yes")) {
-                DatFiles.deletePlaylist(playlist.getName());
+                playlist.delete();
                 hide();
                 Menu.library.showPlaylists();
             }

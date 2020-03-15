@@ -10,6 +10,7 @@ import org.jsoup.Jsoup;
 import org.jsoup.nodes.*;
 import org.jsoup.select.*;
 
+import java.io.File;
 import java.util.ArrayList;
 
 
@@ -17,7 +18,7 @@ public class DatStreamer extends Application {
     static Player player = new Player();
 
     public DatStreamer() {
-
+        DatFiles.initFilesystem(); // create .dat files if no exist yet
     }
 
     @Override
