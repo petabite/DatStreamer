@@ -35,7 +35,7 @@ public class TrackView extends HBox {
         else like.setText("like");
 
         // init add to playlist button
-        for (String playlist_filename: DatFiles.getPlaylists()) {
+        for (String playlist_filename : DatFiles.getPlaylists()) {
             String playlist_name = playlist_filename.replaceAll(".play", "");
             Playlist playlist = Playlist.getPlaylist(playlist_name);
             if (!playlist.hasTrack(track)) {
@@ -49,8 +49,10 @@ public class TrackView extends HBox {
         }
 
         play.setOnMouseClicked(e -> {
+            // mixtape view action
             DatStreamer.player.playTrack(track);
-            for (int track_num = track.getTrack_Num() - 1; track_num < track.mixtape.getTracks().size(); track_num++) {
+            DatStreamer.player.clearQueue();
+            for (int track_num = track.getTrack_Num(); track_num < track.mixtape.getLength(); track_num++) {
                 DatStreamer.player.addToQueue(track.mixtape.getTrack(track_num));
             }
         });
@@ -66,7 +68,10 @@ public class TrackView extends HBox {
         });
 
         download.setOnMouseClicked(e -> {
-
+            DatStreamer.player.toggleIndicator();
+            getChildren().remove(download);
+            track.download();
+            DatStreamer.player.toggleIndicator();
         });
 
         setOnMouseEntered(e -> {
@@ -85,7 +90,8 @@ public class TrackView extends HBox {
         setSpacing(8);
         getChildren().addAll(play, like, add);
         if (isPlaylistView()) getChildren().add(remove);
-        getChildren().addAll(download, num, name);
+        if (!track.isDownloaded()) getChildren().add(download);
+        getChildren().addAll(num, name);
     }
 
     public TrackView(Track track, String view_type, Playlist playlist) {
@@ -94,6 +100,15 @@ public class TrackView extends HBox {
         remove.setOnMouseClicked(e -> {
             playlist.remove(track);
             ((VBox) this.getParent()).getChildren().remove(this); // remove self from track list
+        });
+
+        play.setOnMouseClicked(e -> {
+            // playlist view action
+            DatStreamer.player.playTrack(track);
+            DatStreamer.player.clearQueue();
+            for (int track_index = playlist.getTrackIndex(track) + 1; track_index < playlist.getLength(); track_index++) {
+                DatStreamer.player.addToQueue(playlist.getTrack(track_index));
+            }
         });
     }
 

@@ -58,7 +58,7 @@ public class MixtapeView extends HBox {
 
         play.setOnMouseClicked(event -> {
             DatStreamer.player.playTrack(mixtape.getTrack(0));
-            for (int track_num = 0; track_num < mixtape.getTracks().size(); track_num++) {
+            for (int track_num = 0; track_num < mixtape.getLength(); track_num++) {
                 DatStreamer.player.addToQueue(mixtape.getTrack(track_num));
             }
         });
@@ -67,7 +67,7 @@ public class MixtapeView extends HBox {
             Tracks shuffled = mixtape.getTracks();
             Collections.shuffle(shuffled);
             DatStreamer.player.playTrack(shuffled.get(0));
-            for (int track_num = 1; track_num < mixtape.getTracks().size(); track_num++) {
+            for (int track_num = 1; track_num < mixtape.getLength(); track_num++) {
                 DatStreamer.player.addToQueue(shuffled.get(track_num));
             }
         });
@@ -76,18 +76,26 @@ public class MixtapeView extends HBox {
             toggleLikeButton();
         });
 
+        download.setOnMouseClicked(event -> {
+            DatStreamer.player.toggleIndicator();
+            mixtape.download();
+            DatStreamer.player.toggleIndicator();
+            getChildren().remove(download);
+        });
+
         enqueue.setOnMouseClicked(event -> {
             for (Track track : mixtape.getTracks()) {
-                DatStreamer.player.addToQueue(mixtape.getTrack(track.getTrack_Num()));
+                DatStreamer.player.addToQueue(track);
             }
         });
 
         controls.setAlignment(Pos.CENTER_LEFT);
         controls.getChildren().addAll(
                 new Label("Tracks"),
-                new Label(mixtape.getTracks().size() + " tracks"),
-                play, enqueue, shuffle, like, download
+                new Label(mixtape.getLength() + " tracks"),
+                play, enqueue, shuffle, like
         );
+        if (!mixtape.isDownloaded()) controls.getChildren().add(download);
 
         left.getChildren().addAll(cover, title, artist);
         right.getChildren().addAll(controls, track_list_pane);
@@ -112,13 +120,5 @@ public class MixtapeView extends HBox {
             like.setText("unlike");
         }
     }
-//
-//    private void toggleUnlikeButton() {
-//        like.setText("unlike");
-//        like.setOnMouseClicked(event -> {
-//            mixtape.unlike();
-//            toggleLikeButton();
-//        });
-//    }
 
 }

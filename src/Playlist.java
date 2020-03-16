@@ -31,6 +31,13 @@ public class Playlist implements Serializable {
         return tracks.get(index);
     }
 
+    public int getTrackIndex(Track track) {
+        for (int index = 0; index < getLength(); index++) {
+            if (tracks.get(index).track_id.equals(track.track_id)) return index;
+        }
+        return -1;
+    }
+
     public boolean hasTrack(Track track_to_search_for) {
         for (Track track: tracks) {
             if (track.track_id.equals(track_to_search_for.track_id)) return true;

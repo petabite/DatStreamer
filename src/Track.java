@@ -1,3 +1,4 @@
+import javax.print.DocFlavor;
 import java.io.Serializable;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
@@ -9,7 +10,6 @@ public class Track implements Serializable {
     private String artist;
     protected Mixtape mixtape;
     private String mp3_url;
-//    private int duration;
 
     public Track(int track_num, String title, String artist, Mixtape mixtape) {
         this.track_num = track_num;
@@ -36,8 +36,16 @@ public class Track implements Serializable {
         return mp3_url;
     }
 
+    public String getMp3_Path() {
+        return DatFiles.MIXTAPES_PATH + mixtape.getTitle() + "/" + getTitle() + ".mp3";
+    }
+
     public boolean isLiked() {
         return DatFiles.getLikedSongsPlaylist().hasTrack(this);
+    }
+
+    public boolean isDownloaded() {
+        return DatFiles.exists(DatFiles.MIXTAPES_PATH + mixtape.getTitle() + "/" + getTitle() + ".mp3");
     }
 
     public void like() {
@@ -46,6 +54,16 @@ public class Track implements Serializable {
 
     public void unlike() {
         DatFiles.getLikedSongsPlaylist().remove(this);
+    }
+
+    public void download() {
+        if (!isDownloaded()) {
+            // create mixtape directory if not exist
+            if (!DatFiles.exists(DatFiles.MIXTAPES_PATH + mixtape.getTitle()))
+                DatFiles.mkdir(DatFiles.MIXTAPES_PATH + mixtape.getTitle());
+            //download track
+            DatFiles.downloadToFile(getMp3_Url(), getMp3_Path());
+        }
     }
 
     private void resolveMP3URL() {
@@ -60,5 +78,4 @@ public class Track implements Serializable {
         String full_name = String.format("%s - %s.mp3", num, tmp_title);
         return full_name.replace(" ", "%20");
     }
-
 }

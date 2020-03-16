@@ -43,7 +43,7 @@ public class PlaylistView extends HBox {
 
         play.setOnMouseClicked(event -> {
             DatStreamer.player.playTrack(playlist.getTrack(0));
-            for (int track_num = 0; track_num < playlist.getTracks().size(); track_num++) {
+            for (int track_num = 0; track_num < playlist.getLength(); track_num++) {
                 DatStreamer.player.addToQueue(playlist.getTrack(track_num));
             }
         });
@@ -52,7 +52,7 @@ public class PlaylistView extends HBox {
             Tracks shuffled = playlist.getTracks();
             Collections.shuffle(shuffled);
             DatStreamer.player.playTrack(shuffled.get(0));
-            for (int track_num = 1; track_num < playlist.getTracks().size(); track_num++) {
+            for (int track_num = 1; track_num < playlist.getLength(); track_num++) {
                 DatStreamer.player.addToQueue(shuffled.get(track_num));
             }
         });

@@ -3,6 +3,7 @@ import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
+import java.io.File;
 import java.io.Serializable;
 
 public class Mixtape implements Serializable {
@@ -39,8 +40,23 @@ public class Mixtape implements Serializable {
         return tracks;
     }
 
+    public int getLength() {
+        return getTracks().size();
+    }
+
     public Track getTrack(int index) {
         return tracks.get(index);
+    }
+
+    public boolean isDownloaded() {
+        return DatFiles.exists(DatFiles.MIXTAPES_PATH + getTitle())
+                && new File(DatFiles.MIXTAPES_PATH + getTitle()).listFiles().length == getLength();
+    }
+
+    public void download() {
+        for (Track track : getTracks()) {
+            track.download();
+        }
     }
 
     public boolean isLiked() {

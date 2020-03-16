@@ -1,7 +1,12 @@
 import java.io.*;
+import java.net.URL;
+import java.nio.channels.Channels;
+import java.nio.channels.FileChannel;
+import java.nio.channels.ReadableByteChannel;
 import java.util.ArrayList;
 
 public class DatFiles {
+    static final String MIXTAPES_PATH = ".dat/mixtapes/";
     static final String LIKED_MIXTAPES_PATH = ".dat/mixtapes/liked.dat";
     static final String PLAYLISTS_PATH = ".dat/playlists/";
     static final String LIKED_SONGS_PATH = ".dat/playlists/Liked Songs.play";
@@ -28,6 +33,8 @@ public class DatFiles {
         return (Mixtapes) readFile(DatFiles.LIKED_MIXTAPES_PATH);
     }
 
+    // PLAYLIST OPERATIONS
+
     public static Playlist getLikedSongsPlaylist() {
         return (Playlist) DatFiles.readFile(DatFiles.LIKED_SONGS_PATH);
     }
@@ -47,6 +54,27 @@ public class DatFiles {
 
     public static void deletePlaylist(String playlist_name) {
         deleteFile(PLAYLISTS_PATH + playlist_name + ".play");
+    }
+
+    // FILE OPERATIONS
+
+    public static void mkdir(String path) {
+        new File(path).mkdir();
+    }
+
+    public static boolean exists(String path) {
+        return new File(path).exists();
+    }
+
+    public static void downloadToFile(String url, String file_path) {
+        try {
+            ReadableByteChannel downloadChannel = Channels.newChannel(new URL(url).openStream());
+            FileOutputStream fileOutputStream = new FileOutputStream(new File(file_path));
+            FileChannel fileChannel = fileOutputStream.getChannel();
+            fileChannel.transferFrom(downloadChannel, 0, Long.MAX_VALUE);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     public static void writeToFile(Object obj, String file) {

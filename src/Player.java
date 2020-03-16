@@ -7,6 +7,7 @@ import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.ProgressIndicator;
 import javafx.scene.control.Slider;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -16,6 +17,7 @@ import javafx.scene.media.MediaPlayer;
 import javafx.scene.paint.Color;
 import javafx.util.Duration;
 
+import java.io.File;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -28,13 +30,14 @@ public class Player extends GridPane {
     private Button previous = new Button("Previous");
     private Button play_pause = new Button("play/pause");
     private Button next = new Button("next");
-//    private HBox time_control = new HBox(5);
-    private Slider time_slider = new Slider(0, 1,0);
+    //    private HBox time_control = new HBox(5);
+    private Slider time_slider = new Slider(0, 1, 0);
     private Label current_time = new Label("-:--");
     private Label end_time = new Label("-:--");
     private ImageView cover_art = new ImageView();
     private Label track_title = new Label();
     private Label track_artist = new Label();
+    private ProgressIndicator downloading_indicator = new ProgressIndicator(ProgressIndicator.INDETERMINATE_PROGRESS);
 
     private ObservableList<Track> queue = FXCollections.observableList(new ArrayList<Track>());
     private int queuePos = 0;
@@ -48,10 +51,11 @@ public class Player extends GridPane {
         cover_art.setFitWidth(35);
         cover_art.setFitHeight(35);
 
-//        time_slider.setBlockIncrement(1); // only advance song one sec at a time when slider clicked
+        downloading_indicator.setMaxSize(30,30);
+        downloading_indicator.setVisible(false);
 
         time_slider.setOnMouseReleased(event -> {
-            mediaPlayer.seek(new Duration(time_slider.getValue()*1000)); // seek player to new position in ms
+            mediaPlayer.seek(new Duration(time_slider.getValue() * 1000)); // seek player to new position in ms
         });
 
         time_slider.setOnMouseDragged(event -> {
@@ -75,14 +79,15 @@ public class Player extends GridPane {
         add(track_title, 1, 0);
         add(track_artist, 2, 0);
         add(shuffle, 1, 1);
-        add(repeat, 2,1);
+        add(repeat, 2, 1);
         add(previous, 3, 1);
         add(play_pause, 4, 1);
-        add(next, 5,1);
+        add(next, 5, 1);
         add(current_time, 1, 3);
         add(time_slider, 2, 3, 5, 1);
         add(end_time, 7, 3);
-        add(queue_view, 8,0, 1, 4);
+        add(queue_view, 8, 0, 1, 4);
+        add(downloading_indicator, 9, 3, 1, 1);
 
         setAlignment(Pos.CENTER);
         setPadding(new Insets(15));
@@ -91,24 +96,22 @@ public class Player extends GridPane {
 
     }
 
-    public void playTrack(Track track){
+    public void playTrack(Track track) {
         if (isPlaying()) stop();
         now_playing = track;
-        song = new Media(track.getMp3_Url()); // TODO: choose between url and downloaded file if it exists
+        if (track.isDownloaded()) {
+            song = new Media(new File(track.getMp3_Path()).toURI().toString());
+            System.out.println("playing locally");
+        } else {
+            song = new Media(track.getMp3_Url());
+            System.out.println("playing from web");
+        }
         mediaPlayer = new MediaPlayer(song);
-        mediaPlayer.setOnReady(new Runnable() {
-            @Override
-            public void run() {
-                updateMediaDisplay();
-                play();
-            }
+        mediaPlayer.setOnReady(() -> {
+            updateMediaDisplay();
+            play();
         });
-        mediaPlayer.setOnEndOfMedia(new Runnable() {
-            @Override
-            public void run() {
-                playNextTrack();
-            }
-        });
+        mediaPlayer.setOnEndOfMedia(() -> playNextTrack());
     }
 
     public void playNextTrack() {
@@ -151,6 +154,12 @@ public class Player extends GridPane {
         return playing;
     }
 
+    // VISUAL HELPERS
+
+    public void toggleIndicator() {
+        downloading_indicator.setVisible(!downloading_indicator.isVisible());
+    }
+
     private void updateMediaDisplay() {
         mediaPlayer.currentTimeProperty().addListener((observable, oldTime, newTime) -> {
             if (!time_slider.isPressed()) {
@@ -169,12 +178,16 @@ public class Player extends GridPane {
     public void addToQueue(Track track) {
         queue.add(track);
         queue_view.update();
-//        queue.addListener(new ListChangeListener<Track>() {
-//            @Override
-//            public void onChanged(Change<? extends Track> c) {
-//                queue_view.update();
-//            }
-//        });
+    }
+
+    public void removeTrackFromQueue(Track track) {
+        queue.removeIf(track1 -> track1.track_id.equals(track.track_id));
+        queue_view.update();
+    }
+
+    public void clearQueue() {
+        queue.remove(getQueuePos(), queue.size() - 1);
+        queue_view.update();
     }
 
     public ObservableList<Track> getQueue() {
@@ -187,7 +200,7 @@ public class Player extends GridPane {
 
     // HELPERS
     private String convertSecToMin(double sec) {
-        Date date = new Date((long)(sec*1000));
+        Date date = new Date((long) (sec * 1000));
         return new SimpleDateFormat("m:ss").format(date);
     }
 }
