@@ -1,4 +1,3 @@
-import javax.print.attribute.DocAttribute;
 import java.io.Serializable;
 
 public class Playlist implements Serializable {
@@ -6,7 +5,7 @@ public class Playlist implements Serializable {
     private Tracks tracks = new Tracks();
     private String playlist_path;
 
-    public Playlist(String playlist_name){
+    public Playlist(String playlist_name) {
         name = playlist_name;
         playlist_path = DatFiles.PLAYLISTS_PATH + name + ".play";
     }
@@ -39,7 +38,7 @@ public class Playlist implements Serializable {
     }
 
     public boolean hasTrack(Track track_to_search_for) {
-        for (Track track: tracks) {
+        for (Track track : tracks) {
             if (track.track_id.equals(track_to_search_for.track_id)) return true;
         }
         return false;
@@ -51,7 +50,7 @@ public class Playlist implements Serializable {
         Menu.library.showPlaylists();
     }
 
-    public void remove(Track track_to_remove){
+    public void remove(Track track_to_remove) {
         tracks.removeIf(track -> track.track_id.equals(track_to_remove.track_id)); // TODO: use hasTrack method?
         DatFiles.writeToFile(this, playlist_path);
         Menu.library.showPlaylists();

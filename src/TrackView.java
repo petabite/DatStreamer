@@ -1,4 +1,4 @@
-import com.sun.istack.internal.Nullable;
+import javafx.application.Platform;
 import javafx.geometry.Pos;
 import javafx.scene.Cursor;
 import javafx.scene.control.Button;
@@ -69,9 +69,13 @@ public class TrackView extends HBox {
 
         download.setOnMouseClicked(e -> {
             DatStreamer.player.toggleIndicator();
-            getChildren().remove(download);
-            track.download();
-            DatStreamer.player.toggleIndicator();
+            new Thread(() -> {
+                Platform.runLater(() -> {
+                    hideDownloadButton();
+                });
+                track.download();
+                DatStreamer.player.toggleIndicator();
+            }).start();
         });
 
         setOnMouseEntered(e -> {
@@ -110,6 +114,10 @@ public class TrackView extends HBox {
                 DatStreamer.player.addToQueue(playlist.getTrack(track_index));
             }
         });
+    }
+
+    public void hideDownloadButton() {
+        getChildren().remove(download);
     }
 
     private boolean isPlaylistView() {

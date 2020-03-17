@@ -1,7 +1,4 @@
-import javax.print.DocFlavor;
 import java.io.Serializable;
-import java.io.UnsupportedEncodingException;
-import java.net.URLEncoder;
 
 public class Track implements Serializable {
     private int track_num;
@@ -37,7 +34,7 @@ public class Track implements Serializable {
     }
 
     public String getMp3_Path() {
-        return DatFiles.MIXTAPES_PATH + mixtape.getTitle() + "/" + getTitle() + ".mp3";
+        return DatFiles.MIXTAPES_PATH + DatFiles.fileize(mixtape.getTitle()) + "/" + DatFiles.fileize(getTitle()) + ".mp3";
     }
 
     public boolean isLiked() {
@@ -74,7 +71,8 @@ public class Track implements Serializable {
         String num = (track_num < 10) ? "0" + Integer.toString(track_num) : Integer.toString(track_num);
         String tmp_title = title.replaceAll("['|.|#|,|&]", "")
                 .replaceAll("\\[", "%5B")
-                .replaceAll("]", "%5D");
+                .replaceAll("]", "%5D")
+                .replaceAll("\\s\\)", "");
         String full_name = String.format("%s - %s.mp3", num, tmp_title);
         return full_name.replace(" ", "%20");
     }

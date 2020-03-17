@@ -50,12 +50,14 @@ public class Mixtape implements Serializable {
 
     public boolean isDownloaded() {
         return DatFiles.exists(DatFiles.MIXTAPES_PATH + getTitle())
-                && new File(DatFiles.MIXTAPES_PATH + getTitle()).listFiles().length == getLength();
+                && new File(DatFiles.MIXTAPES_PATH + DatFiles.fileize(getTitle())).listFiles().length == getLength();
     }
 
     public void download() {
         for (Track track : getTracks()) {
+//            new Thread(() -> {
             track.download();
+//            }).start();
         }
     }
 
@@ -63,7 +65,7 @@ public class Mixtape implements Serializable {
         return liked;
     }
 
-    public void like(){
+    public void like() {
         Mixtapes liked_tapes = DatFiles.getLikedMixtapes();
         liked = true;
         liked_tapes.add(this);
@@ -71,7 +73,7 @@ public class Mixtape implements Serializable {
         Menu.library.showLikedMixtapes();
     }
 
-    public void unlike(){
+    public void unlike() {
         Mixtapes liked_tapes = DatFiles.getLikedMixtapes();
         liked = false;
         liked_tapes.removeIf(tape -> tape.mixtape_id.equals(this.mixtape_id));
@@ -103,7 +105,7 @@ public class Mixtape implements Serializable {
         }
     }
 
-    private void resolveURLs() throws Exception{
+    private void resolveURLs() throws Exception {
         stream_url = String.format("https://hw-mp3.datpiff.com/mixtapes/%c/%s/", stream_key, mixtape_id);
         Document doc = Jsoup.connect("https://www.datpiff.com" + uri).execute().bufferUp().parse();
         cover_art_url = doc.select(".thumbnail img").attr("src");

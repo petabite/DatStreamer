@@ -1,7 +1,4 @@
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
-import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -21,7 +18,6 @@ import java.io.File;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
-
 
 public class Player extends GridPane {
 
@@ -51,7 +47,7 @@ public class Player extends GridPane {
         cover_art.setFitWidth(35);
         cover_art.setFitHeight(35);
 
-        downloading_indicator.setMaxSize(30,30);
+        downloading_indicator.setMaxSize(30, 30);
         downloading_indicator.setVisible(false);
 
         time_slider.setOnMouseReleased(event -> {

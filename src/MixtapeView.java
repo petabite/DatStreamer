@@ -1,15 +1,15 @@
+import javafx.application.Platform;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
+import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
-import javafx.scene.text.Font;
 import javafx.scene.text.TextAlignment;
 
-import java.io.IOException;
 import java.util.Collections;
 
 public class MixtapeView extends HBox {
@@ -77,10 +77,18 @@ public class MixtapeView extends HBox {
         });
 
         download.setOnMouseClicked(event -> {
-            DatStreamer.player.toggleIndicator();
-            mixtape.download();
-            DatStreamer.player.toggleIndicator();
-            getChildren().remove(download);
+            new Thread(() -> {
+                DatStreamer.player.toggleIndicator();
+                Platform.runLater(() -> {
+                    getChildren().remove(download);
+                    for (Node track_view : track_list.getChildren()) {
+                        TrackView trackView = (TrackView) track_view;
+                        trackView.hideDownloadButton();
+                    }
+                });
+                mixtape.download();
+                DatStreamer.player.toggleIndicator();
+            }).start();
         });
 
         enqueue.setOnMouseClicked(event -> {

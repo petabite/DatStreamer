@@ -17,7 +17,9 @@ public class DatFiles {
             // create dirs
             new File(".dat/playlists").mkdirs();
             new File(".dat/mixtapes").mkdir();
-            Playlist.createNewPlaylist("Liked Songs"); // create like songs playlist
+        }
+        if (!exists(LIKED_SONGS_PATH)) Playlist.createNewPlaylist("Liked Songs"); // create like songs playlist
+        if (!exists(LIKED_MIXTAPES_PATH)) {
             try {
                 FileOutputStream fos = new FileOutputStream(".dat/mixtapes/liked.dat"); // create liked mixtapes file
                 ObjectOutputStream oos = new ObjectOutputStream(fos);
@@ -59,17 +61,17 @@ public class DatFiles {
     // FILE OPERATIONS
 
     public static void mkdir(String path) {
-        new File(path).mkdir();
+        new File(fileize(path)).mkdir();
     }
 
     public static boolean exists(String path) {
-        return new File(path).exists();
+        return new File(fileize(path)).exists();
     }
 
     public static void downloadToFile(String url, String file_path) {
         try {
             ReadableByteChannel downloadChannel = Channels.newChannel(new URL(url).openStream());
-            FileOutputStream fileOutputStream = new FileOutputStream(new File(file_path));
+            FileOutputStream fileOutputStream = new FileOutputStream(new File(fileize(file_path)));
             FileChannel fileChannel = fileOutputStream.getChannel();
             fileChannel.transferFrom(downloadChannel, 0, Long.MAX_VALUE);
         } catch (Exception e) {
@@ -80,7 +82,7 @@ public class DatFiles {
     public static void writeToFile(Object obj, String file) {
         try {
 
-            FileOutputStream fileOutputStream = new FileOutputStream(file);
+            FileOutputStream fileOutputStream = new FileOutputStream(fileize(file));
             ObjectOutputStream objectOutputStream = new ObjectOutputStream(fileOutputStream);
             objectOutputStream.writeObject(obj);
             objectOutputStream.close();
@@ -91,7 +93,7 @@ public class DatFiles {
 
     public static Object readFile(String file) {
         try {
-            FileInputStream fileInputStream = new FileInputStream(file);
+            FileInputStream fileInputStream = new FileInputStream(fileize(file));
             ObjectInputStream objectInputStream = new ObjectInputStream(fileInputStream);
             return objectInputStream.readObject();
         } catch (Exception e) {
@@ -101,6 +103,10 @@ public class DatFiles {
     }
 
     private static void deleteFile(String file) {
-        new File(file).delete();
+        new File(fileize(file)).delete();
+    }
+
+    public static String fileize(String path_name) {
+        return path_name.replaceAll("[^a-zA-Z0-9.,\\-\\/\\s()]", "");
     }
 }
