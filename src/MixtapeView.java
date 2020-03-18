@@ -1,5 +1,4 @@
 import javafx.application.Platform;
-import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
@@ -7,14 +6,13 @@ import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
-import javafx.scene.paint.Color;
 import javafx.scene.text.TextAlignment;
 
 import java.util.Collections;
 
 public class MixtapeView extends HBox {
     private Mixtape mixtape;
-    private Button back = new Button("back");
+    private Button back = new Button(null, DatFiles.getImgAsset("back"));
     private ImageView cover;
     private Label title, artist;
     private HBox controls = new HBox(10);
@@ -27,8 +25,8 @@ public class MixtapeView extends HBox {
     public MixtapeView(StackPane display, Mixtape mixtape) {
         this.mixtape = mixtape;
         cover = new ImageView(mixtape.cover_art_url);
-        cover.setFitHeight(100);
-        cover.setFitWidth(100);
+        cover.setFitHeight(150);
+        cover.setFitWidth(150);
         title = new Label(mixtape.getTitle());
         title.setMaxWidth(300);
         title.setWrapText(true);
@@ -43,22 +41,21 @@ public class MixtapeView extends HBox {
         track_list_pane.setBorder(Border.EMPTY);
         track_list_pane.setHbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
 
-        setPadding(new Insets(20));
-        setSpacing(30);
         getChildren().addAll(back, left, right);
         left.setAlignment(Pos.CENTER);
 
-        play = new Button("play");
-        enqueue = new Button("enqueue");
-        shuffle = new Button("shuffle");
+        play = new Button(null, DatFiles.getImgAsset("play_arrow", 25, 25));
+        enqueue = new Button(null, DatFiles.getImgAsset("add_to_queue", 25, 25));
+        shuffle = new Button(null, DatFiles.getImgAsset("shuffle", 25, 25));
         like = new Button();
-        if (mixtape.isLiked()) like.setText("unlike");
-        else like.setText("like");
-        download = new Button("download");
+        if (mixtape.isLiked()) like.setGraphic(DatFiles.getImgAsset("liked", 25, 25));
+        else like.setGraphic(DatFiles.getImgAsset("not_liked", 25, 25));
+        download = new Button(null, DatFiles.getImgAsset("download", 25, 25));
 
         play.setOnMouseClicked(event -> {
+            DatStreamer.player.clearQueue();
             DatStreamer.player.playTrack(mixtape.getTrack(0));
-            for (int track_num = 0; track_num < mixtape.getLength(); track_num++) {
+            for (int track_num = 1; track_num < mixtape.getLength(); track_num++) {
                 DatStreamer.player.addToQueue(mixtape.getTrack(track_num));
             }
         });
@@ -115,17 +112,16 @@ public class MixtapeView extends HBox {
         for (Track track : mixtape.getTracks()) {
             track_list.getChildren().add(new TrackView(track, TrackView.MIXTAPE_VIEW));
         }
-
-        setBackground(new Background(new BackgroundFill(Color.WHITE, null, null)));
+        setId("mixtape-view");
     }
 
     private void toggleLikeButton() {
         if (mixtape.isLiked()) {
             mixtape.unlike();
-            like.setText("like");
+            like.setGraphic(DatFiles.getImgAsset("not_liked", 25, 25));
         } else {
             mixtape.like();
-            like.setText("unlike");
+            like.setGraphic(DatFiles.getImgAsset("liked", 25, 25));
         }
     }
 

@@ -18,7 +18,7 @@ public class MixtapePreview extends VBox {
     private ImageView cover;
     private Label title, artist;
 
-    public MixtapePreview(StackPane display, Mixtape tape) throws FileNotFoundException {
+    public MixtapePreview(StackPane display, Mixtape tape) {
 //        Image image = new Image(new FileInputStream());
         cover = new ImageView(tape.cover_art_url);
         cover.setFitHeight(50);
@@ -39,14 +39,8 @@ public class MixtapePreview extends VBox {
             display.setAlignment(tape_view, Pos.BOTTOM_CENTER);
             display.getChildren().add(tape_view);
         });
-        setOnMouseEntered(e -> {
-            setBackground(new Background(new BackgroundFill(Color.LIGHTBLUE, null, null)));
-            setCursor(Cursor.HAND);
-        });
-        setOnMouseExited(e -> {
-            setBackground(Background.EMPTY);
-            setCursor(Cursor.DEFAULT);
-        });
+
+        setId("mixtape-preview");
         setAlignment(Pos.CENTER);
         getChildren().addAll(cover, title, artist);
     }

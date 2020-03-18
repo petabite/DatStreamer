@@ -1,3 +1,6 @@
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
+
 import java.io.*;
 import java.net.URL;
 import java.nio.channels.Channels;
@@ -66,6 +69,19 @@ public class DatFiles {
 
     public static boolean exists(String path) {
         return new File(fileize(path)).exists();
+    }
+
+    public static ImageView getImgAsset(String img_name) {
+        File file = new File("src/assets/imgs/" + img_name + ".png");
+        Image image = new Image(file.toURI().toString());
+        return new ImageView(image);
+    }
+
+    public static ImageView getImgAsset(String img_name, int width, int height) {
+        ImageView image_view = getImgAsset(img_name);
+        image_view.setFitWidth(width);
+        image_view.setFitHeight(height);
+        return image_view;
     }
 
     public static void downloadToFile(String url, String file_path) {

@@ -10,7 +10,6 @@ public class Mixtape implements Serializable {
     private String title;
     private String artist;
     private Tracks tracks = new Tracks();
-    private boolean liked;
     private String uri;
     private char stream_key;
     protected String mixtape_id;
@@ -21,7 +20,6 @@ public class Mixtape implements Serializable {
         this.title = title;
         this.artist = artist;
         this.uri = uri;
-        resolveIfLiked();
         getStreamKey();
         getMixtapeID();
         resolveURLs();
@@ -55,19 +53,19 @@ public class Mixtape implements Serializable {
 
     public void download() {
         for (Track track : getTracks()) {
-//            new Thread(() -> {
             track.download();
-//            }).start();
         }
     }
 
     public boolean isLiked() {
-        return liked;
+        for (Mixtape tape : DatFiles.getLikedMixtapes()) {
+            if (tape.mixtape_id.equals(this.mixtape_id)) return true;
+        }
+        return false;
     }
 
     public void like() {
         Mixtapes liked_tapes = DatFiles.getLikedMixtapes();
-        liked = true;
         liked_tapes.add(this);
         DatFiles.writeToFile(liked_tapes, DatFiles.LIKED_MIXTAPES_PATH);
         Menu.library.showLikedMixtapes();
@@ -75,14 +73,9 @@ public class Mixtape implements Serializable {
 
     public void unlike() {
         Mixtapes liked_tapes = DatFiles.getLikedMixtapes();
-        liked = false;
         liked_tapes.removeIf(tape -> tape.mixtape_id.equals(this.mixtape_id));
         DatFiles.writeToFile(liked_tapes, DatFiles.LIKED_MIXTAPES_PATH);
         Menu.library.showLikedMixtapes();
-    }
-
-    private void resolveIfLiked() {
-        liked = DatFiles.getLikedMixtapes().contains(this);
     }
 
     private void getStreamKey() {

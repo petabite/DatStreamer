@@ -1,42 +1,42 @@
 import javafx.application.Platform;
-import javafx.geometry.Pos;
-import javafx.scene.Cursor;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.MenuButton;
-import javafx.scene.control.MenuItem;
-import javafx.scene.layout.Background;
-import javafx.scene.layout.BackgroundFill;
+import javafx.scene.control.*;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
-import javafx.scene.paint.Color;
 
 public class TrackView extends HBox {
     public static final String MIXTAPE_VIEW = "MIXTAPE";
     public static final String PLAYLIST_VIEW = "PLAYLIST";
     private String view_type;
 
-    private Button play, like, download, remove;
+    private Button play, like, enqueue, download, remove;
     private MenuButton add;
-    private Label num, name;
+    private Label num, name, artist;
+    private Tooltip name_tooltip;
 
     public TrackView(Track track, String view_type) {
         this.view_type = view_type;
-        play = new Button("play");
+        play = new Button(null, DatFiles.getImgAsset("play_arrow", 20, 20));
         like = new Button();
-        add = new MenuButton("add");
-        remove = new Button("remove");
-        download = new Button("download");
+        add = new MenuButton(null, DatFiles.getImgAsset("add_to_playlist", 20, 20));
+        enqueue = new Button(null, DatFiles.getImgAsset("add_to_queue", 20, 20));
+        remove = new Button(null, DatFiles.getImgAsset("clear", 20, 20));
+        download = new Button(null, DatFiles.getImgAsset("download", 20, 20));
         num = new Label(Integer.toString(track.getTrack_Num()));
         name = new Label(track.getTitle());
+        name_tooltip = new Tooltip(track.getTitle());
+        artist = new Label(track.getArtist());
+
+        num.setMinWidth(20);
+        name.setTooltip(name_tooltip);
+        name.setPrefWidth(450);
 
         // init like button
-        if (track.isLiked()) like.setText("unlike");
-        else like.setText("like");
+        if (track.isLiked()) like.setGraphic(DatFiles.getImgAsset("liked", 20, 20));
+        else like.setGraphic(DatFiles.getImgAsset("not_liked", 20, 20));
 
         // init add to playlist button
         for (String playlist_filename : DatFiles.getPlaylists()) {
-            String playlist_name = playlist_filename.replaceAll(".play", "");
+            String playlist_name = playlist_filename.replaceAll("\\.play\\b", "");
             Playlist playlist = Playlist.getPlaylist(playlist_name);
             if (!playlist.hasTrack(track)) {
                 MenuItem item = new MenuItem(playlist_name);
@@ -60,11 +60,15 @@ public class TrackView extends HBox {
         like.setOnMouseClicked(e -> {
             if (track.isLiked()) {
                 track.unlike();
-                like.setText("like");
+                like.setGraphic(DatFiles.getImgAsset("not_liked", 20, 20));
             } else {
                 track.like();
-                like.setText("unlike");
+                like.setGraphic(DatFiles.getImgAsset("liked", 20, 20));
             }
+        });
+
+        enqueue.setOnMouseClicked(event -> {
+            DatStreamer.player.addToQueueNext(track);
         });
 
         download.setOnMouseClicked(e -> {
@@ -78,24 +82,13 @@ public class TrackView extends HBox {
             }).start();
         });
 
-        setOnMouseEntered(e -> {
-            setBackground(new Background(new BackgroundFill(Color.LIGHTBLUE, null, null)));
-            setCursor(Cursor.HAND);
-        });
-
-        setOnMouseExited(e -> {
-            setBackground(new Background(new BackgroundFill(Color.WHITE, null, null)));
-            setCursor(Cursor.DEFAULT);
-        });
-
-        setAlignment(Pos.CENTER_LEFT);
-        setBackground(new Background(new BackgroundFill(Color.WHITE, null, null)));
-        setMinWidth(500);
-        setSpacing(8);
-        getChildren().addAll(play, like, add);
+        setId("track-view");
+        getChildren().addAll(play, like, add, enqueue);
         if (isPlaylistView()) getChildren().add(remove);
         if (!track.isDownloaded()) getChildren().add(download);
-        getChildren().addAll(num, name);
+        else getChildren().add(new TrackViewSpacer());
+        if (isMixtapeView()) getChildren().add(num);
+        getChildren().addAll(name, artist);
     }
 
     public TrackView(Track track, String view_type, Playlist playlist) {

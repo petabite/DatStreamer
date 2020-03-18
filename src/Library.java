@@ -1,23 +1,18 @@
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextInputDialog;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.TilePane;
 import javafx.scene.layout.VBox;
-
-import javax.swing.plaf.basic.BasicButtonUI;
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Date;
 import java.util.Optional;
 
 public class Library extends StackPane {
     private VBox base_view = new VBox();
     private Label title_label = new Label("Library");
     private Label playlist_label = new Label("Playlists");
-    private Button new_playlist_button = new Button("new playlist");
-    private VBox playlists_pane = new VBox();
+    private Button new_playlist_button = new Button(null, DatFiles.getImgAsset("add"));
+    private HBox playlists_pane = new HBox(10);
     private Label mixtapes_label = new Label("Liked Mixtapes");
     private TilePane liked_mixtapes_pane = new TilePane();
 
@@ -33,6 +28,11 @@ public class Library extends StackPane {
                 showPlaylists();
             }
         });
+        base_view.setSpacing(20);
+        title_label.setId("title");
+        playlist_label.setId("heading");
+        mixtapes_label.setId("heading");
+        setId("library");
         showPlaylists();
         showLikedMixtapes();
         base_view.getChildren().addAll(
@@ -61,11 +61,7 @@ public class Library extends StackPane {
             e.printStackTrace();
         }
         for (Mixtape tape : liked_mixtapes) {
-            try {
-                liked_mixtapes_pane.getChildren().add(new MixtapePreview(this, tape));
-            } catch (FileNotFoundException e) {
-                e.printStackTrace();
-            }
+            liked_mixtapes_pane.getChildren().add(new MixtapePreview(this, tape));
         }
     }
 }

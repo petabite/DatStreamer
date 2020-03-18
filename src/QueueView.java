@@ -6,7 +6,7 @@ public class QueueView extends TabPane {
     private VBox queue_tracklist = new VBox();
     private ScrollPane queue_scrollpane = new ScrollPane(queue_content);
     private Tab queue_tab = new Tab("Queue", queue_scrollpane);
-    private Button clear_queue_button = new Button("clear");
+    private Button clear_queue_button = new Button("clear", DatFiles.getImgAsset("clear", 20, 20));
 
     private VBox history_content = new VBox();
     private VBox history_tracklist = new VBox();
@@ -23,7 +23,7 @@ public class QueueView extends TabPane {
 
 //        setTabMinWidth(200);
         setPrefHeight(100);
-        setPrefWidth(200);
+        setPrefWidth(350);
         getTabs().addAll(queue_tab, history_tab);
         setTabClosingPolicy(TabClosingPolicy.UNAVAILABLE);
     }

@@ -10,7 +10,7 @@ import java.util.Collections;
 public class PlaylistView extends HBox {
     private StackPane display;
     private Playlist playlist;
-    private Button back = new Button("back");
+    private Button back = new Button(null, DatFiles.getImgAsset("back"));
     private Label name;
     private HBox controls = new HBox(10);
     private Button play, enqueue, shuffle, delete;
@@ -23,7 +23,7 @@ public class PlaylistView extends HBox {
         this.display = display;
         this.playlist = playlist;
         name = new Label(playlist.getName());
-        name.setMaxWidth(300);
+        name.setPrefWidth(200);
         name.setWrapText(true);
         name.setAlignment(Pos.CENTER);
         name.setTextAlignment(TextAlignment.CENTER); // TODO: inherit the label object to DRY
@@ -31,19 +31,19 @@ public class PlaylistView extends HBox {
         track_list_pane.setBorder(Border.EMPTY);
         track_list_pane.setHbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
 
-        setPadding(new Insets(20));
-        setSpacing(30);
         getChildren().addAll(back, left, right);
+        setId("playlist-view");
         left.setAlignment(Pos.CENTER);
 
-        play = new Button("play");
-        enqueue = new Button("enqueue");
-        shuffle = new Button("shuffle");
-        delete = new Button("delete");
+        play = new Button(null, DatFiles.getImgAsset("play_arrow", 25, 25));
+        enqueue = new Button(null, DatFiles.getImgAsset("add_to_queue", 25, 25));
+        shuffle = new Button(null, DatFiles.getImgAsset("shuffle", 25, 25));
+        delete = new Button(null, DatFiles.getImgAsset("trash", 25, 25));
 
         play.setOnMouseClicked(event -> {
+            DatStreamer.player.clearQueue();
             DatStreamer.player.playTrack(playlist.getTrack(0));
-            for (int track_num = 0; track_num < playlist.getLength(); track_num++) {
+            for (int track_num = 1; track_num < playlist.getLength(); track_num++) {
                 DatStreamer.player.addToQueue(playlist.getTrack(track_num));
             }
         });
@@ -59,7 +59,7 @@ public class PlaylistView extends HBox {
 
         enqueue.setOnMouseClicked(event -> {
             for (Track track : playlist.getTracks()) {
-                DatStreamer.player.addToQueue(playlist.getTrack(track.getTrack_Num()));
+                DatStreamer.player.addToQueue(track);
             }
         });
 
@@ -68,7 +68,7 @@ public class PlaylistView extends HBox {
             delete_alert.setTitle("Delete Playlist?");
             delete_alert.setGraphic(null);
             delete_alert.setHeaderText("Are you sure you wanna delete this playlist?");
-            if(delete_alert.showAndWait().get().getText().equals("Yes")) {
+            if (delete_alert.showAndWait().get().getText().equals("Yes")) {
                 playlist.delete();
                 hide();
                 Menu.library.showPlaylists();
@@ -81,7 +81,8 @@ public class PlaylistView extends HBox {
                 new Label(playlist.getLength() + " tracks"),
                 play, enqueue, shuffle
         );
-        if (!playlist.getName().equals("Liked Songs")) controls.getChildren().add(delete); // liked songs cannot be deleted LOL
+        if (!playlist.getName().equals("Liked Songs"))
+            controls.getChildren().add(delete); // liked songs cannot be deleted LOL
 
         left.getChildren().addAll(name);
         right.getChildren().addAll(controls, track_list_pane);
@@ -93,8 +94,6 @@ public class PlaylistView extends HBox {
         for (Track track : playlist.getTracks()) {
             track_list.getChildren().add(new TrackView(track, TrackView.PLAYLIST_VIEW, playlist));
         }
-
-        setBackground(new Background(new BackgroundFill(Color.WHITE, null, null)));
     }
 
     public void hide() {
