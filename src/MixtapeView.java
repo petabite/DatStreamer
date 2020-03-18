@@ -63,6 +63,7 @@ public class MixtapeView extends HBox {
         shuffle.setOnMouseClicked(event -> {
             Tracks shuffled = mixtape.getTracks();
             Collections.shuffle(shuffled);
+            DatStreamer.player.clearQueue();
             DatStreamer.player.playTrack(shuffled.get(0));
             for (int track_num = 1; track_num < mixtape.getLength(); track_num++) {
                 DatStreamer.player.addToQueue(shuffled.get(track_num));

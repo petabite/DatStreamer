@@ -193,7 +193,7 @@ public class Player extends HBox {
     }
 
     public void clearQueue() {
-        queue.subList(getQueuePos(), queue.size() - 1).clear();
+        if (queue.size() > 0) queue.subList(getQueuePos(), queue.size() - 1).clear();
         queue_view.update();
     }
 
