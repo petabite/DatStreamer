@@ -88,6 +88,7 @@ public class Player extends HBox {
     public void playTrack(Track track) {
         if (isPlaying()) stop();
         now_playing = track;
+        if (queue.size() == 0) queue.add(queuePos, track);
         if (track.isDownloaded()) {
             song = new Media(new File(track.getMp3_Path()).toURI().toString());
             System.out.println("playing locally");

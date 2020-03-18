@@ -1,5 +1,7 @@
+import com.sun.org.apache.xpath.internal.operations.Bool;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.BorderPane;
 
 import java.io.*;
 import java.net.URL;
@@ -72,8 +74,8 @@ public class DatFiles {
     }
 
     public static ImageView getImgAsset(String img_name) {
-        File file = new File("src/assets/imgs/" + img_name + ".png");
-        Image image = new Image(file.toURI().toString());
+        String file = DatFiles.class.getClassLoader().getResource("imgs/" + img_name + ".png").toExternalForm();
+        Image image = new Image(file);
         return new ImageView(image);
     }
 
@@ -101,6 +103,7 @@ public class DatFiles {
             FileOutputStream fileOutputStream = new FileOutputStream(fileize(file));
             ObjectOutputStream objectOutputStream = new ObjectOutputStream(fileOutputStream);
             objectOutputStream.writeObject(obj);
+            fileOutputStream.close();
             objectOutputStream.close();
         } catch (Exception e) {
             e.printStackTrace();
@@ -111,7 +114,10 @@ public class DatFiles {
         try {
             FileInputStream fileInputStream = new FileInputStream(fileize(file));
             ObjectInputStream objectInputStream = new ObjectInputStream(fileInputStream);
-            return objectInputStream.readObject();
+            Object obj = objectInputStream.readObject();
+            fileInputStream.close();
+            objectInputStream.close();
+            return obj;
         } catch (Exception e) {
             e.printStackTrace();
             return e;
@@ -119,7 +125,8 @@ public class DatFiles {
     }
 
     private static void deleteFile(String file) {
-        new File(fileize(file)).delete();
+        Boolean isDeleted = new File(fileize(file)).delete();
+        if (!isDeleted) System.out.println("file not deleted");
     }
 
     public static String fileize(String path_name) {

@@ -1,0 +1,9 @@
+<component name="ArtifactManager">
+  <artifact type="jar" name="DatStreamer:jar">
+    <output-path>$PROJECT_DIR$/out/artifacts/DatStreamer_jar</output-path>
+    <root id="archive" name="DatStreamer.jar">
+      <element id="module-output" name="DatStreamer" />
+      <element id="extracted-dir" path="E:/Downloads/jsoup-1.12.1.jar" path-in-jar="/" />
+    </root>
+  </artifact>
+</component>

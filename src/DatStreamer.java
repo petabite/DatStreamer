@@ -17,11 +17,13 @@ public class DatStreamer extends Application {
     public void start(Stage root) throws Exception {
         root.setTitle("DatStreamer");
         root.setWidth(1200);
-        root.getIcons().add(new Image(new File("src/assets/imgs/icon.png").toURI().toString()));
+        System.out.println("Working Directory = " +
+                System.getProperty("user.dir"));
+        root.getIcons().add(new Image(this.getClass().getClassLoader().getResource("imgs/icon.png").toExternalForm()));
         VBox mainLayout = new VBox();
         mainLayout.getChildren().addAll(player, new Menu());
         Scene mainScene = new Scene(mainLayout);
-        mainScene.getStylesheets().add("assets/style.css");
+        mainScene.getStylesheets().add(this.getClass().getClassLoader().getResource("style.css").toExternalForm());
         root.setScene(mainScene);
         root.show();
     }
