@@ -1,5 +1,3 @@
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -14,7 +12,7 @@ import javafx.util.Duration;
 
 import java.io.File;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Date;
 
 public class Player extends HBox {
@@ -42,7 +40,7 @@ public class Player extends HBox {
     // download progress indicator
     private ProgressIndicator downloading_indicator = new ProgressIndicator(ProgressIndicator.INDETERMINATE_PROGRESS);
     // BTS
-    private ObservableList<Track> queue = FXCollections.observableList(new ArrayList<Track>());
+    private Tracks queue = new Tracks();
     private int queuePos = 0;
     private boolean playing = false;
     protected Track now_playing = null;
@@ -79,6 +77,10 @@ public class Player extends HBox {
 
         previous.setOnMouseClicked(event -> {
             playPreviousTrack();
+        });
+
+        shuffle.setOnMouseClicked(event -> {
+            shuffleQueue();
         });
 
         getChildren().addAll(downloading_indicator, cover_art, controls, queue_view);
@@ -185,12 +187,17 @@ public class Player extends HBox {
         queue_view.update();
     }
 
-    public void clearQueue() {
-        queue.remove(getQueuePos(), queue.size() - 1);
+    public void shuffleQueue() {
+        Collections.shuffle(queue);
         queue_view.update();
     }
 
-    public ObservableList<Track> getQueue() {
+    public void clearQueue() {
+        queue.subList(getQueuePos(), queue.size() - 1).clear();
+        queue_view.update();
+    }
+
+    public Tracks getQueue() {
         return queue;
     }
 

@@ -17,8 +17,6 @@ public class DatStreamer extends Application {
     public void start(Stage root) throws Exception {
         root.setTitle("DatStreamer");
         root.setWidth(1200);
-        System.out.println("Working Directory = " +
-                System.getProperty("user.dir"));
         root.getIcons().add(new Image(this.getClass().getClassLoader().getResource("imgs/icon.png").toExternalForm()));
         VBox mainLayout = new VBox();
         mainLayout.getChildren().addAll(player, new Menu());

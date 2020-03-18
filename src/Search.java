@@ -72,7 +72,6 @@ public class Search extends VBox {
             es.execute(() -> {
                 try {
                     mixtapes.add(new Mixtape(title, artist, uri));
-                    System.out.println("in thread");
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
@@ -84,7 +83,6 @@ public class Search extends VBox {
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
-        System.out.println("Returnigng");
         return mixtapes;
     }
 }
