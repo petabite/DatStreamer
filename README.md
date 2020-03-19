@@ -38,6 +38,14 @@ On first startup, DatStreamer creates a .dat folder where all your playlists and
 
 ## Screenshots
 
+![library view](https://github.com/petabite/DatStreamer/blob/master/docs/library.png?raw=true)
+**Library**
+
+![mixtape view](https://github.com/petabite/DatStreamer/blob/master/docs/mixtape.png?raw=true)
+**Mixtapes**
+
+![search view](https://github.com/petabite/DatStreamer/blob/master/docs/search.png?raw=true)
+**Search**
 
 ## Acknowledgements
 - [DatPiff🔥](https://www.datpiff.com/)
