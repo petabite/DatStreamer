@@ -13,7 +13,6 @@
 - [Changelog](#changelog)
 - [Features](#features)
 - [Get DatStreamer!](#get-datstreamer)
-      - [On first startup, DatStreamer creates a .dat folder where all your playlists and downloaded mixtapes are stored. don't delete this folder!](#on-first-startup-datstreamer-creates-a-dat-folder-where-all-your-playlists-and-downloaded-mixtapes-are-stored-dont-delete-this-folder)
 - [Screenshots](#screenshots)
 - [Acknowledgements](#acknowledgements)
   
@@ -35,7 +34,7 @@
 3. make sure you have [Java](https://www.java.com/en/download/) installed
 4. launch and enjoy!
 
-##### On first startup, DatStreamer creates a .dat folder where all your playlists and downloaded mixtapes are stored. don't delete this folder!
+On first startup, DatStreamer creates a .dat folder where all your playlists and downloaded mixtapes are stored. don't delete this folder!
 
 ## Screenshots
 
