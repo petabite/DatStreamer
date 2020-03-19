@@ -63,6 +63,10 @@
     -fx-padding: 15;
 }
 
+.scroll-pane {
+    -fx-background-color: transparent;
+}
+
 #menu {
     -fx-tab-min-height: 35;
     -fx-tab-min-width: 200;
