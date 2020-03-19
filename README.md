@@ -2,10 +2,10 @@
     <img src="https://raw.githubusercontent.com/petabite/DatStreamer/master/src/imgs/icon.png" width="80">
 </p>
 <p align="center">
-    <b>DatStreamer</b>
-    </br>
-    a DatPiff streaming client written in Java
+    <strong>DatStreamer</strong>
 </p>
+<p align="center">
+    a DatPiff streaming client written in Java
 
 ## Table of Contents
 - [Table of Contents](#table-of-contents)
