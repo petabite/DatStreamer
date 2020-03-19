@@ -6,6 +6,7 @@
 </p>
 <p align="center">
     a DatPiff streaming client written in Java
+</p>
 
 ## Table of Contents
 - [Table of Contents](#table-of-contents)
