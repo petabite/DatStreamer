@@ -1,3 +1,6 @@
+package DatStreamer;
+
+import Mixtapes.*;
 import javafx.application.Platform;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;

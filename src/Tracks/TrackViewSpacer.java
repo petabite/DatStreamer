@@ -1,3 +1,5 @@
+package Tracks;
+
 import javafx.scene.layout.Region;
 
 public class TrackViewSpacer extends Region {

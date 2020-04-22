@@ -1,3 +1,7 @@
+package Playlists;
+
+import DatStreamer.*;
+import Tracks.*;
 import java.io.Serializable;
 
 public class Playlist implements Serializable {

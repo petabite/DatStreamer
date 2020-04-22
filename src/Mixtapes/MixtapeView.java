@@ -1,3 +1,7 @@
+package Mixtapes;
+
+import DatStreamer.*;
+import Tracks.*;
 import javafx.application.Platform;
 import javafx.geometry.Pos;
 import javafx.scene.Node;

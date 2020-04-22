@@ -1,3 +1,8 @@
+package Mixtapes;
+
+import DatStreamer.*;
+import Tracks.*;
+
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
@@ -12,9 +17,9 @@ public class Mixtape implements Serializable {
     private Tracks tracks = new Tracks();
     private String uri;
     private char stream_key;
-    protected String mixtape_id;
-    protected String stream_url;
-    protected String cover_art_url;
+    public String mixtape_id;
+    public String stream_url;
+    public String cover_art_url;
 
     public Mixtape(String title, String artist, String uri) throws Exception {
         this.title = title;

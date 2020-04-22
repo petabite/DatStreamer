@@ -1,10 +1,12 @@
+package DatStreamer;
+
 import javafx.geometry.Side;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
 
 public class Menu extends TabPane {
-    static Library library = new Library();
-    static Search search = new Search();
+    public static Library library = new Library();
+    public static Search search = new Search();
     private Tab library_tab = new Tab("Library", library);
     private Tab search_tab = new Tab("Search", search);
 

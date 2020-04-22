@@ -1,13 +1,13 @@
+package DatStreamer;
+
 import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.scene.layout.*;
 import javafx.stage.Stage;
 
-import java.io.File;
-
 public class DatStreamer extends Application {
-    static Player player = new Player();
+    public static Player player = new Player();
 
     public DatStreamer() {
         DatFiles.initFilesystem(); // create .dat files if no exist yet

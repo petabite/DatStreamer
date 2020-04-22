@@ -1,11 +1,15 @@
+package Tracks;
+
 import java.io.Serializable;
+import Mixtapes.*;
+import DatStreamer.*;
 
 public class Track implements Serializable {
     private int track_num;
-    protected String track_id;
+    public String track_id;
     private String title;
     private String artist;
-    protected Mixtape mixtape;
+    public Mixtape mixtape;
     private String mp3_url;
 
     public Track(int track_num, String title, String artist, Mixtape mixtape) {

@@ -1,3 +1,7 @@
+package Tracks;
+
+import DatStreamer.*;
+import Playlists.*;
 import javafx.application.Platform;
 import javafx.scene.control.*;
 import javafx.scene.layout.HBox;

@@ -1,8 +1,11 @@
-import javafx.geometry.Insets;
+package Playlists;
+
+import DatStreamer.*;
+import DatStreamer.Menu;
+import Tracks.*;
 import javafx.geometry.Pos;
 import javafx.scene.control.*;
 import javafx.scene.layout.*;
-import javafx.scene.paint.Color;
 import javafx.scene.text.TextAlignment;
 
 import java.util.Collections;
@@ -66,7 +69,7 @@ public class PlaylistView extends HBox {
 
         delete.setOnMouseClicked(event -> {
             Alert delete_alert = new Alert(Alert.AlertType.CONFIRMATION, null, ButtonType.YES, ButtonType.NO);
-            delete_alert.setTitle("Delete Playlist?");
+            delete_alert.setTitle("Delete Playlists.Playlist?");
             delete_alert.setGraphic(null);
             delete_alert.setHeaderText("Are you sure you wanna delete this playlist?");
             if (delete_alert.showAndWait().get().getText().equals("Yes")) {
