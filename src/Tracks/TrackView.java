@@ -34,6 +34,13 @@ public class TrackView extends HBox {
         name.setTooltip(name_tooltip);
         name.setPrefWidth(450);
 
+        play.setTooltip(new Tooltip("play"));
+        like.setTooltip(new Tooltip("like"));
+        add.setTooltip(new Tooltip("add to playlist"));
+        enqueue.setTooltip(new Tooltip("add to queue"));
+        remove.setTooltip(new Tooltip("remove from playlist"));
+        download.setTooltip(new Tooltip("download"));
+
         // init like button
         if (track.isLiked()) like.setGraphic(DatFiles.getImgAsset("liked", 20, 20));
         else like.setGraphic(DatFiles.getImgAsset("not_liked", 20, 20));

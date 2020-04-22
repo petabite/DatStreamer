@@ -43,6 +43,11 @@ public class PlaylistView extends HBox {
         shuffle = new Button(null, DatFiles.getImgAsset("shuffle", 25, 25));
         delete = new Button(null, DatFiles.getImgAsset("trash", 25, 25));
 
+        play.setTooltip(new Tooltip("play"));
+        enqueue.setTooltip(new Tooltip("add to queue"));
+        shuffle.setTooltip(new Tooltip("shuffle play"));
+        delete.setTooltip(new Tooltip("delete playlist"));
+
         play.setOnMouseClicked(event -> {
             DatStreamer.player.clearQueue();
             DatStreamer.player.playTrack(playlist.getTrack(0));
