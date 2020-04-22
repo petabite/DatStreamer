@@ -89,14 +89,20 @@ public class Browse extends VBox {
         }
         // render featured mixtapes
         Elements content_listings = doc.select(".contentListing");
-        Elements featured_tapes = content_listings.first().select(".contentItem");
-        parseContentListing(featured_tapes, featured_pane);
+        new Thread(() -> {
+            Elements featured_tapes = content_listings.first().select(".contentItem");
+            parseContentListing(featured_tapes, featured_pane);
+        }).start();
         // render hot mixtapes
-        Elements hot_tapes = content_listings.get(1).select(".contentItem");
-        parseContentListing(hot_tapes, whats_hot_pane);
+        new Thread(() -> {
+            Elements hot_tapes = content_listings.get(1).select(".contentItem");
+            parseContentListing(hot_tapes, whats_hot_pane);
+        }).start();
         // render top mixtapes
-        Elements top_tapes = content_listings.get(4).select(".contentItem");
-        parseContentListing(top_tapes, top_pane);
+        new Thread(() -> {
+            Elements top_tapes = content_listings.get(4).select(".contentItem");
+            parseContentListing(top_tapes, top_pane);
+        }).start();
     }
 
     private void parseContentListing(Elements content_listing, HBox pane_to_render) {
