@@ -2,8 +2,10 @@ package DatStreamer;
 
 import Mixtapes.*;
 import Playlists.*;
+import javafx.geometry.Orientation;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextInputDialog;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
@@ -19,6 +21,7 @@ public class Library extends StackPane {
     private HBox playlists_pane = new HBox(10);
     private Label mixtapes_label = new Label("Liked Mixtapes");
     private TilePane liked_mixtapes_pane = new TilePane();
+    private ScrollPane liked_mixtapes_scroll_pane = new ScrollPane(liked_mixtapes_pane);
 
     public Library() {
         new_playlist_button.setOnMouseClicked(event -> {
@@ -36,11 +39,13 @@ public class Library extends StackPane {
         title_label.setId("title");
         playlist_label.setId("heading");
         mixtapes_label.setId("heading");
+        liked_mixtapes_pane.setId("liked-mixtapes");
+        liked_mixtapes_scroll_pane.setId("liked-mixtapes-scroll");
         setId("library");
         showPlaylists();
         showLikedMixtapes();
         base_view.getChildren().addAll(
-                title_label, playlist_label, new_playlist_button, playlists_pane, mixtapes_label, liked_mixtapes_pane);
+                title_label, playlist_label, new_playlist_button, playlists_pane, mixtapes_label, liked_mixtapes_scroll_pane);
         getChildren().addAll(base_view);
     }
 

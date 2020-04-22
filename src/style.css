@@ -4,7 +4,7 @@
     accent-color: #9C88DB;
     main-color: #9468D0;
 }
-.root{
+.root {
     -fx-font-size: 13px;
     -fx-font-family: "Courier New";
     -fx-base: main-color;
@@ -39,8 +39,10 @@
 
 }
 
-.scroll-bar:vertical {
+.scroll-bar {
     -fx-background-color: background-color;
+    -fx-unit-increment: 10;
+    -fx-block-increment: 50;
 }
 
 .menu-button > .arrow-button {
@@ -51,7 +53,7 @@
     -fx-padding: 0;
 }
 
-.borders{
+.borders {
     -fx-border-color: main-color;
     -fx-border-style: dotted;
     -fx-border-width: 1.5;
@@ -65,6 +67,7 @@
 
 .scroll-pane {
     -fx-background-color: transparent;
+    -fx-fit-to-width: true;
 }
 
 #menu {
@@ -72,8 +75,18 @@
     -fx-tab-min-width: 200;
 }
 
-#search, #library {
+#search, #library, #browse {
     -fx-padding: 20;
+}
+
+#spotlight-pane {
+    -fx-alignment: center;
+}
+
+#browse-content > .label {
+    -fx-font-size: 20px;
+    -fx-underline: true;
+    -fx-label-padding: 4;
 }
 
 .tab-pane .tab-header-area .tab-header-background {
@@ -115,4 +128,17 @@
     -fx-alignment: center-left;
     -fx-min-width: 800;
     -fx-spacing: 8;
+}
+
+#liked-mixtapes {
+    -fx-orientation: vertical;
+    -fx-pref-rows: 3;
+    -fx-pref-height: 390;
+}
+
+#liked-mixtapes-scroll {
+    -fx-pannable: true;
+    -fx-hbar-policy: as-needed;
+    -fx-vbar-policy: never;
+    -fx-fit-to-height: true;
 }
