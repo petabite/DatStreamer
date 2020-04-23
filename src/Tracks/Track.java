@@ -5,6 +5,7 @@ import Mixtapes.*;
 import DatStreamer.*;
 
 public class Track implements Serializable {
+    private static final long serialVersionUID = 11L;
     private int track_num;
     public String track_id;
     private String title;

@@ -17,6 +17,7 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 
 public class Mixtape implements Serializable {
+    private static final long serialVersionUID = 11L;
     private String title;
     private String artist;
     private Tracks tracks = new Tracks();
@@ -33,8 +34,8 @@ public class Mixtape implements Serializable {
         getStreamKey();
         getMixtapeID();
         resolveStreamURL();
-        retrieveTracks();
         resolveCoverArtURL();
+        retrieveTracks();
     }
 
     public String getTitle() {
