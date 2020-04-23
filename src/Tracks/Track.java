@@ -72,8 +72,8 @@ public class Track implements Serializable {
     }
 
     private String convertTrackName() {
-        String num = (track_num < 10) ? "0" + Integer.toString(track_num) : Integer.toString(track_num);
-        String tmp_title = title.substring(0, (title.length() <= 50) ? title.length() : 50).trim()
+        String num = (track_num < 10) ? "0" + track_num : Integer.toString(track_num);
+        String tmp_title = title.substring(0, Math.min(title.length(), 50)).trim()
                 .replaceAll("['|.|#|,|&|\\-|$|:]", "")
                 .replaceAll("\\[", "%5B")
                 .replaceAll("]", "%5D")

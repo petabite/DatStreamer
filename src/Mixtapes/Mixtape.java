@@ -130,6 +130,5 @@ public class Mixtape implements Serializable {
         } else {
             cover_art_url = doc.select(".thumbnail img").attr("src");
         }
-        System.out.println(cover_art_url);
     }
 }

@@ -97,10 +97,8 @@ public class Player extends HBox {
         if (queue.size() == 0) queue.add(queuePos, track);
         if (track.isDownloaded()) {
             song = new Media(new File(track.getMp3_Path()).toURI().toString());
-            System.out.println("playing locally");
         } else {
             song = new Media(track.getMp3_Url());
-            System.out.println("playing from web");
         }
         mediaPlayer = new MediaPlayer(song);
         mediaPlayer.setOnReady(() -> {

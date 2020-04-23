@@ -14,7 +14,7 @@ public class DatStreamer extends Application {
     }
 
     @Override
-    public void start(Stage root) throws Exception {
+    public void start(Stage root) {
         root.setTitle("DatStreamer");
         root.setWidth(1200);
         root.getIcons().add(new Image(this.getClass().getClassLoader().getResource("imgs/icon.png").toExternalForm()));
@@ -22,6 +22,25 @@ public class DatStreamer extends Application {
         mainLayout.getChildren().addAll(player, new Menu());
         Scene mainScene = new Scene(mainLayout);
         mainScene.getStylesheets().add(this.getClass().getClassLoader().getResource("style.css").toExternalForm());
+        // set keyboard shortcuts
+        mainScene.setOnKeyPressed(event -> {
+            switch (event.getCode()) {
+                case SPACE:
+                    player.togglePlaying();
+                    break;
+                case B:
+                    player.playPreviousTrack();
+                    break;
+                case N:
+                    player.playNextTrack();
+                    break;
+                case M:
+                    player.shuffleQueue();
+                    break;
+                default:
+                    break;
+            }
+        });
         root.setScene(mainScene);
         root.show();
     }

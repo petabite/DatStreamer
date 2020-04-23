@@ -68,7 +68,7 @@ public class Search extends VBox {
         }
         Elements results = doc.select("#leftColumnWide .contentListing .contentItem:not(.noMedia)");
         ExecutorService es = Executors.newCachedThreadPool();
-        for (Element result : results.subList(0, (results.size() > 9) ? 9 : results.size())) {
+        for (Element result : results.subList(0, Math.min(results.size(), 9))) {
             String title = result.select(".contentItemInner .title a").text();
             String artist = result.select(".contentItemInner .artist").text();
             String uri = result.select(".contentItemInner a").first().attr("href");
