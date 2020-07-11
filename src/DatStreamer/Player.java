@@ -11,6 +11,13 @@ import javafx.scene.media.MediaPlayer;
 import javafx.util.Duration;
 
 import java.io.File;
+import java.io.InputStream;
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.nio.file.StandardCopyOption;
 import java.text.SimpleDateFormat;
 import java.util.Collections;
 import java.util.Date;
@@ -95,17 +102,21 @@ public class Player extends HBox {
         if (isPlaying()) stop();
         now_playing = track;
         if (queue.size() == 0) queue.add(queuePos, track);
+        String mp3_path;
         if (track.isDownloaded()) {
-            song = new Media(new File(track.getMp3_Path()).toURI().toString());
+            mp3_path = new File(track.getMp3_Path()).toURI().toString();
         } else {
-            song = new Media(track.getMp3_Url());
+            mp3_path = ".dat/now-playing.mp3";
+            DatFiles.downloadToFile(track.getMp3_Url(), mp3_path);
+            mp3_path = Paths.get(mp3_path).toUri().toString();
         }
+        song = new Media(mp3_path);
         mediaPlayer = new MediaPlayer(song);
         mediaPlayer.setOnReady(() -> {
             updateMediaDisplay();
             play();
         });
-        mediaPlayer.setOnEndOfMedia(() -> playNextTrack());
+//        mediaPlayer.setOnEndOfMedia(() -> playNextTrack());
     }
 
     public void playNextTrack() {
