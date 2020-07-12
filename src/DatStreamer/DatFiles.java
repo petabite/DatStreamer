@@ -1,7 +1,7 @@
 package DatStreamer;
 
-import Mixtapes.*;
-import Playlists.*;
+import Mixtapes.Mixtapes;
+import Playlists.Playlist;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 
