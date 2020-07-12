@@ -25,10 +25,10 @@
 
 ## Changelog
 
-| Release |                                                                                                     Changes                                                                                                     |  Date   |
-| :-----: | :-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------: | :-----: |
-|  v1.1   | <ul><li>browse tab</li><li>download cover art</li><li>new button tooltips</li><li>add keyboard shortcuts</li><li>ui improvements</li><li>performance optimizations</li><li>under the hood refactoring</li></ul> |         |
-|  v1.0   |                                                                                                 First Release!                                                                                                  | 3/18/20 |
+| Release |                                                                                                                                 Changes                                                                                                                                  |  Date   |
+| :-----: | :----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------: | :-----: |
+|  v1.1   | <ul><li>browse tab</li><li>download cover art</li><li>new dock icon for macOS!</li><li>new button tooltips</li><li>add keyboard shortcuts</li><li>ui improvements</li><li>performance optimizations</li><li>macOS bug fixes</li><li>under the hood refactoring</li></ul> | 7/11/20 |
+|  v1.0   |                                                                                                                              First Release!                                                                                                                              | 3/18/20 |
 
 ## Features
 
@@ -53,7 +53,7 @@
 
 1. go to the [releases](https://github.com/petabite/DatStreamer/releases) tab
 2. download the latest DatStreamer .jar file to any location on your computer
-3. make sure you have [Java](https://www.java.com/en/download/) installed
+3. make sure you have [Java 8](https://www.java.com/en/download/) installed
 4. launch and enjoy!
 
 On first startup, DatStreamer creates a .dat folder where all your playlists and downloaded mixtapes are stored. don't delete this folder!
@@ -125,7 +125,7 @@ On first startup, DatStreamer creates a .dat folder where all your playlists and
 │       Search.java             [search view]
 │
 ├───imgs                        [icon resources]
-│       add.png     
+│       add.png
 │       add_to_playlist.png
 │       add_to_queue.png
 │       back.png
