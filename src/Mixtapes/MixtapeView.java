@@ -1,9 +1,14 @@
+package Mixtapes;
+
+import DatStreamer.*;
+import Tracks.*;
 import javafx.application.Platform;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
+import javafx.scene.control.Tooltip;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
 import javafx.scene.text.TextAlignment;
@@ -51,6 +56,12 @@ public class MixtapeView extends HBox {
         if (mixtape.isLiked()) like.setGraphic(DatFiles.getImgAsset("liked", 25, 25));
         else like.setGraphic(DatFiles.getImgAsset("not_liked", 25, 25));
         download = new Button(null, DatFiles.getImgAsset("download", 25, 25));
+
+        play.setTooltip(new Tooltip("play"));
+        enqueue.setTooltip(new Tooltip("add to queue"));
+        shuffle.setTooltip(new Tooltip("shuffle play"));
+        like.setTooltip(new Tooltip("like"));
+        download.setTooltip(new Tooltip("download"));
 
         play.setOnMouseClicked(event -> {
             DatStreamer.player.clearQueue();

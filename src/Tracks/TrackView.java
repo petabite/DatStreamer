@@ -1,3 +1,7 @@
+package Tracks;
+
+import DatStreamer.*;
+import Playlists.*;
 import javafx.application.Platform;
 import javafx.scene.control.*;
 import javafx.scene.layout.HBox;
@@ -29,6 +33,13 @@ public class TrackView extends HBox {
         num.setMinWidth(20);
         name.setTooltip(name_tooltip);
         name.setPrefWidth(450);
+
+        play.setTooltip(new Tooltip("play"));
+        like.setTooltip(new Tooltip("like"));
+        add.setTooltip(new Tooltip("add to playlist"));
+        enqueue.setTooltip(new Tooltip("add to queue"));
+        remove.setTooltip(new Tooltip("remove from playlist"));
+        download.setTooltip(new Tooltip("download"));
 
         // init like button
         if (track.isLiked()) like.setGraphic(DatFiles.getImgAsset("liked", 20, 20));

@@ -1,19 +1,23 @@
+package DatStreamer;
+
+import Tracks.*;
 import javafx.geometry.Pos;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.ProgressIndicator;
-import javafx.scene.control.Slider;
+import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 import javafx.util.Duration;
+import javazoom.spi.mpeg.sampled.file.MpegAudioFileReader;
 
+import javax.sound.sampled.AudioFileFormat;
 import java.io.File;
+import java.nio.file.Paths;
 import java.text.SimpleDateFormat;
 import java.util.Collections;
 import java.util.Date;
+import java.util.Map;
 
 public class Player extends HBox {
     // cover art
@@ -44,6 +48,7 @@ public class Player extends HBox {
     private int queuePos = 0;
     private boolean playing = false;
     protected Track now_playing = null;
+    private Duration current_duration;
     private Media song;
     private MediaPlayer mediaPlayer;
 
@@ -53,6 +58,10 @@ public class Player extends HBox {
         cover_art.setFitHeight(80);
 
         controls.setPrefWidth(350);
+        previous.setTooltip(new Tooltip("previous"));
+        play_pause.setTooltip(new Tooltip("play/pause"));
+        next.setTooltip(new Tooltip("next"));
+        shuffle.setTooltip(new Tooltip("shuffle"));
         buttons.setAlignment(Pos.CENTER);
 
         downloading_indicator.setMaxSize(30, 30);
@@ -91,14 +100,20 @@ public class Player extends HBox {
         if (isPlaying()) stop();
         now_playing = track;
         if (queue.size() == 0) queue.add(queuePos, track);
+        String mp3_path, mp3_raw_path;
         if (track.isDownloaded()) {
-            song = new Media(new File(track.getMp3_Path()).toURI().toString());
-            System.out.println("playing locally");
+            mp3_raw_path = track.getMp3_Path();
+            mp3_path = new File(track.getMp3_Path()).toURI().toString();
         } else {
-            song = new Media(track.getMp3_Url());
-            System.out.println("playing from web");
+            mp3_raw_path = ".dat/now-playing.mp3";
+            DatFiles.downloadToFile(track.getMp3_Url(), mp3_raw_path);
+            mp3_path = Paths.get(mp3_raw_path).toUri().toString();
         }
+        song = new Media(mp3_path);
         mediaPlayer = new MediaPlayer(song);
+        current_duration = new Duration(getDuration(mp3_raw_path));
+        mediaPlayer.setStopTime(current_duration);
+        mediaPlayer.setCycleCount(MediaPlayer.INDEFINITE);
         mediaPlayer.setOnReady(() -> {
             updateMediaDisplay();
             play();
@@ -162,8 +177,8 @@ public class Player extends HBox {
         cover_art.setImage(new Image(now_playing.mixtape.cover_art_url));
         track_title.setText(now_playing.getTitle());
         track_artist.setText(now_playing.getArtist());
-        end_time.setText(convertSecToMin(song.getDuration().toSeconds()));
-        time_slider.setMax(song.getDuration().toSeconds());
+        end_time.setText(convertSecToMin(current_duration.toSeconds()));
+        time_slider.setMax(current_duration.toSeconds());
     }
 
     // QUEUE CONTROL
@@ -206,6 +221,17 @@ public class Player extends HBox {
     }
 
     // HELPERS
+    private Long getDuration(String path) {
+        AudioFileFormat baseFileFormat = null;
+        try {
+            baseFileFormat = new MpegAudioFileReader().getAudioFileFormat(new File(path));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        Map properties = baseFileFormat.properties();
+        return (Long) properties.get("duration") / 1000;
+    }
+
     private String convertSecToMin(double sec) {
         Date date = new Date((long) (sec * 1000));
         return new SimpleDateFormat("m:ss").format(date);

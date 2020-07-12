@@ -1,11 +1,16 @@
+package Tracks;
+
 import java.io.Serializable;
+import Mixtapes.*;
+import DatStreamer.*;
 
 public class Track implements Serializable {
+    private static final long serialVersionUID = 11L;
     private int track_num;
-    protected String track_id;
+    public String track_id;
     private String title;
     private String artist;
-    protected Mixtape mixtape;
+    public Mixtape mixtape;
     private String mp3_url;
 
     public Track(int track_num, String title, String artist, Mixtape mixtape) {
@@ -68,8 +73,8 @@ public class Track implements Serializable {
     }
 
     private String convertTrackName() {
-        String num = (track_num < 10) ? "0" + Integer.toString(track_num) : Integer.toString(track_num);
-        String tmp_title = title.substring(0, (title.length() <= 50) ? title.length() : 50).trim()
+        String num = (track_num < 10) ? "0" + track_num : Integer.toString(track_num);
+        String tmp_title = title.substring(0, Math.min(title.length(), 50)).trim()
                 .replaceAll("['|.|#|,|&|\\-|$|:]", "")
                 .replaceAll("\\[", "%5B")
                 .replaceAll("]", "%5D")

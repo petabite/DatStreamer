@@ -1,18 +1,11 @@
+package Mixtapes;
+
 import javafx.geometry.Pos;
-import javafx.scene.Cursor;
 import javafx.scene.control.Label;
-import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.Background;
-import javafx.scene.layout.BackgroundFill;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
-import javafx.scene.paint.Color;
 import javafx.scene.text.TextAlignment;
-
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 
 public class MixtapePreview extends VBox {
     private ImageView cover;

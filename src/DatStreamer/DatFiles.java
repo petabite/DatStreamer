@@ -1,7 +1,9 @@
-import com.sun.org.apache.xpath.internal.operations.Bool;
+package DatStreamer;
+
+import Mixtapes.Mixtapes;
+import Playlists.Playlist;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.layout.BorderPane;
 
 import java.io.*;
 import java.net.URL;
@@ -11,10 +13,10 @@ import java.nio.channels.ReadableByteChannel;
 import java.util.ArrayList;
 
 public class DatFiles {
-    static final String MIXTAPES_PATH = ".dat/mixtapes/";
-    static final String LIKED_MIXTAPES_PATH = ".dat/mixtapes/liked.dat";
-    static final String PLAYLISTS_PATH = ".dat/playlists/";
-    static final String LIKED_SONGS_PATH = ".dat/playlists/Liked Songs.play";
+    public static final String MIXTAPES_PATH = ".dat/mixtapes/";
+    public static final String LIKED_MIXTAPES_PATH = ".dat/mixtapes/liked.dat";
+    public static final String PLAYLISTS_PATH = ".dat/playlists/";
+    public static final String LIKED_SONGS_PATH = ".dat/playlists/Liked Songs.play";
 
     public static void initFilesystem() {
         // create datstreamer files if not exist
@@ -52,7 +54,7 @@ public class DatFiles {
         File playlists_folder = new File(PLAYLISTS_PATH);
         File[] list_of_playlists = playlists_folder.listFiles();
         for (File playlist : list_of_playlists) {
-            if (playlist.isFile() && !playlist.getName().equals("Liked Songs.play")) {
+            if (playlist.isFile() && playlist.getName().endsWith(".play") && !playlist.getName().equals("Liked Songs.play")) {
                 playlist_names.add(playlist.getName());
             }
         }

@@ -1,20 +1,31 @@
+package Mixtapes;
+
+import DatStreamer.*;
+import Tracks.*;
+
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
 import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
 import java.io.Serializable;
+import java.net.URL;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 
 public class Mixtape implements Serializable {
+    private static final long serialVersionUID = 11L;
     private String title;
     private String artist;
     private Tracks tracks = new Tracks();
     private String uri;
     private char stream_key;
-    protected String mixtape_id;
-    protected String stream_url;
-    protected String cover_art_url;
+    public String mixtape_id;
+    public String stream_url;
+    public String cover_art_url;
 
     public Mixtape(String title, String artist, String uri) throws Exception {
         this.title = title;
@@ -22,7 +33,8 @@ public class Mixtape implements Serializable {
         this.uri = uri;
         getStreamKey();
         getMixtapeID();
-        resolveURLs();
+        resolveStreamURL();
+        resolveCoverArtURL();
         retrieveTracks();
     }
 
@@ -47,13 +59,23 @@ public class Mixtape implements Serializable {
     }
 
     public boolean isDownloaded() {
-        return DatFiles.exists(DatFiles.MIXTAPES_PATH + getTitle())
-                && new File(DatFiles.MIXTAPES_PATH + DatFiles.fileize(getTitle())).listFiles().length == getLength();
+        return DatFiles.exists(DatFiles.MIXTAPES_PATH + getTitle()) // check if all tracks AND cover art are downloaded
+                && new File(DatFiles.MIXTAPES_PATH + DatFiles.fileize(getTitle())).listFiles().length == getLength() + 1;
     }
 
     public void download() {
+        // download tracks
         for (Track track : getTracks()) {
-            track.download();
+            new Thread(() -> {
+                track.download();
+            }).start();
+        }
+        // download cover
+        try {
+            InputStream in = new URL(cover_art_url).openStream();
+            Files.copy(in, Paths.get(DatFiles.MIXTAPES_PATH + DatFiles.fileize(getTitle() + "/" + getTitle() + ".png")));
+        } catch (IOException e) {
+            e.printStackTrace();
         }
     }
 
@@ -98,9 +120,16 @@ public class Mixtape implements Serializable {
         }
     }
 
-    private void resolveURLs() throws Exception {
+    private void resolveStreamURL() {
         stream_url = String.format("https://hw-mp3.datpiff.com/mixtapes/%c/%s/", stream_key, mixtape_id);
+    }
+
+    private void resolveCoverArtURL() throws IOException {
         Document doc = Jsoup.connect("https://www.datpiff.com" + uri).execute().bufferUp().parse();
-        cover_art_url = doc.select(".thumbnail img").attr("src");
+        if (isDownloaded()) {
+            cover_art_url = new File(DatFiles.MIXTAPES_PATH + DatFiles.fileize(getTitle() + "/" + getTitle() + ".png")).toURI().toString();
+        } else {
+            cover_art_url = doc.select(".thumbnail img").attr("src");
+        }
     }
 }
