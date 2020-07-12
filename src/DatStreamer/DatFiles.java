@@ -54,7 +54,7 @@ public class DatFiles {
         File playlists_folder = new File(PLAYLISTS_PATH);
         File[] list_of_playlists = playlists_folder.listFiles();
         for (File playlist : list_of_playlists) {
-            if (playlist.isFile() && !playlist.getName().equals("Liked Songs.play")) {
+            if (playlist.isFile() && playlist.getName().endsWith(".play") && !playlist.getName().equals("Liked Songs.play")) {
                 playlist_names.add(playlist.getName());
             }
         }

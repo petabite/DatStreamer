@@ -3,8 +3,11 @@ package DatStreamer;
 import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
-import javafx.scene.layout.*;
+import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
+
+import javax.swing.ImageIcon;
+import java.net.URL;
 
 public class DatStreamer extends Application {
     public static Player player = new Player();
@@ -46,6 +49,14 @@ public class DatStreamer extends Application {
     }
 
     public static void main(String[] args) {
+        try {
+            // set mac dock icon
+            URL iconURL = DatStreamer.class.getClassLoader().getResource("imgs/icon.png");
+            java.awt.Image image = new ImageIcon(iconURL).getImage();
+            com.apple.eawt.Application.getApplication().setDockIconImage(image);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         launch(args);
     }
 }

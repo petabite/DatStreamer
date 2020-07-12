@@ -3,7 +3,10 @@
     <output-path>$PROJECT_DIR$/out/artifacts/DatStreamer_jar</output-path>
     <root id="archive" name="DatStreamer.jar">
       <element id="module-output" name="DatStreamer" />
-      <element id="extracted-dir" path="E:/Downloads/jsoup-1.12.1.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$USER_HOME$/Downloads/jsoup-1.13.1.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$USER_HOME$/Downloads/MpegAudioSPI1.9.5/lib/jl1.0.1.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$USER_HOME$/Downloads/MpegAudioSPI1.9.5/lib/tritonus_share.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$USER_HOME$/Downloads/MpegAudioSPI1.9.5/mp3spi1.9.5.jar" path-in-jar="/" />
     </root>
   </artifact>
 </component>
